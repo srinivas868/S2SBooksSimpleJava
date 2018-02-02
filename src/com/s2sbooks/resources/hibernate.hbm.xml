@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.s2sbooks.vo.User" table="S2S_USER_MASTER_2">
+	    <id name="id" column="user_id" type="integer">
+          <generator class="increment"></generator>
+        </id>
+		<property name="email" column="USER_NAME" type="java.lang.String">
+				</property>
+		<property name="password" column="PASSWORD" type="java.lang.String">
+				</property>
+		<property name="firstName" column="FIRST_NAME" type="java.lang.String">
+				</property>
+		<property name="lastName" column="LAST_NAME" type="java.lang.String">
+				</property>
+		<property name="cellNumber" column="CELL_NUMBER" type="java.lang.String">
+				</property>
+		<property name="verified" column="VERIFIED" type="com.s2sbooks.vo.enumtypes.Verified">
+				</property>
+	</class>
+	
+	<class name="com.s2sbooks.vo.BookSellingInfo" table="S2S_BOOK_SELLING_INFO">
+	    <id name="id" column="book_selling_id" type="integer">
+          <generator class="increment"></generator>
+        </id>
+		<property name="status" column="STATUS" type="com.s2sbooks.vo.enumtypes.BookStatus">
+				</property>
+		<property name="isbn" column="ISBN" type="double">
+				</property>
+		<property name="title" column="TITLE" type="java.lang.String">
+				</property>
+		<property name="firstAuthor" column="FIRST_AUTHOR" type="java.lang.String">
+				</property>
+		<property name="condition" column="BOOK_CONDITION" type="com.s2sbooks.vo.enumtypes.BookCondition">
+				</property>
+		<property name="price" column="PRICE" type="double">
+				</property>
+		<many-to-one name="user" column="USER" class="com.s2sbooks.vo.User" cascade="save-update" />
+		<property name="department" column="DEPARTMENT" type="java.lang.String">
+				</property>
+		<property name="subject" column="SUBJECT" type="java.lang.String">
+				</property>
+		<!-- <property name="user_id" column="USER_ID" type="integer">
+				</property> -->
+	</class>
+	
+	<class name="com.s2sbooks.vo.Department" table="S2S_BOOK_DEPARTMENT">
+	    <id name="id" column="department_id" type="integer">
+          <generator class="increment"></generator>
+        </id>
+		<property name="title" column="TITLE" type="java.lang.String">
+				</property>
+		<list name="subjects" cascade="all" lazy="false">
+	        <key column="department_id"/>
+        	<index column="type"></index>  
+         	<one-to-many class="com.s2sbooks.vo.Subject"/>
+        </list>
+	</class>
+	
+	<class name="com.s2sbooks.vo.Subject" table="S2S_BOOK_SUBJECT">
+	    <id name="id" column="subject_id" type="integer">
+          <generator class="increment"></generator>
+        </id>
+		<property name="title" column="TITLE" type="java.lang.String">
+		</property>
+	</class>
+</hibernate-mapping>
