@@ -26,13 +26,17 @@ id="WebApp_ID" version="3.0">
     <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>  
     <init-param>  
         <param-name>jersey.config.server.provider.packages</param-name>  
-        <param-value>com.s2sbooks.sell.rest</param-value>
+        <param-value>com.s2sbooks.books.rest</param-value>
     </init-param> 
     <load-on-startup>1</load-on-startup>
   </servlet>  
   <servlet-mapping>  
     <servlet-name>Books Info Manager REST Service</servlet-name>
     <url-pattern>/sell/rest/*</url-pattern>  
+  </servlet-mapping>
+  <servlet-mapping>  
+    <servlet-name>Books Info Manager REST Service</servlet-name>
+    <url-pattern>/buy/rest/*</url-pattern>  
   </servlet-mapping>
   <jsp-config>
     <jsp-property-group>

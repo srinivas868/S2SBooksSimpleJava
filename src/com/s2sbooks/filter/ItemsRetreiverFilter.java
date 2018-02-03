@@ -29,7 +29,9 @@ public class ItemsRetreiverFilter implements Filter{
 			FilterChain pChain) throws IOException, ServletException {
 		try {
 			List departmentItems = getS2SBooksTools().getItems("Department",false);
+			List bookInfoItems = getS2SBooksTools().getItems("BookSellingInfo",false);
 			request.setAttribute("departmentItems", departmentItems);
+			request.setAttribute("bookInfoItems", bookInfoItems);
 		} catch (Exception e) {
 			Log.debug("Exception while fetching survey items "+e);
 		} finally{

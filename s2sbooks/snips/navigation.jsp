@@ -160,7 +160,7 @@
 		                        </li>
 		                        <li><a href="/s2sbooks/sell/"><i class="fa fa-arrow-circle-right"></i> Sell Book</a>
 		                        </li>
-		                        <li><a href="/s2sbooks/"><i class="fa fa-edit"></i> Edit Book</a>
+		                        <li><a href="/s2sbooks/edit/"><i class="fa fa-edit"></i> Edit Book</a>
 		                        </li>
 		                        <li><a href="javascript:logout();"><i class="fa fa-sign-out"></i> Logout</a>
 		                        </li>

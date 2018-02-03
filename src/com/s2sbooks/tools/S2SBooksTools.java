@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import com.s2sbooks.vo.BookSellingInfo;
 import com.s2sbooks.vo.User;
 
 public class S2SBooksTools {
@@ -42,6 +43,33 @@ public class S2SBooksTools {
 			session = getSessionFactory().openSession();
 			session.clear();
 			Query query = session.createQuery("FROM "+pItemType);
+			return (List) query.list();
+		} catch (Throwable e) {
+			throw new Exception(e);
+		} finally{
+			if(pCloseSession){
+				session.close(); 
+			}
+		}
+	}
+	
+	/** this method will return bookinfo item for given parameters
+	 * @param classType
+	 * @param pItemId
+	 * @param pCloseSession
+	 * @return
+	 * @throws Exception
+	 */
+	public List searchBookItems(Class<BookSellingInfo> classType, double isbn, String department,
+							String subject, boolean pCloseSession) throws Exception {
+		Session session = null;
+		try{
+			session = getSessionFactory().openSession();
+			Query query = session.createQuery("from BookSellingInfo b where b.isbn = :isbn "
+												+ "and b.department = :department and b.subject = :subject");
+			query.setParameter("isbn", isbn);
+			query.setParameter("department", department);
+			query.setParameter("subject", subject);
 			return (List) query.list();
 		} catch (Throwable e) {
 			throw new Exception(e);

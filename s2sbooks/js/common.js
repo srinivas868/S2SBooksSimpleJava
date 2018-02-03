@@ -42,6 +42,16 @@ function validateSellBookFields(){
 	return true;
 }
 
+function validateSearchBookFields(){
+	if($('#departments').find(":selected").text() == '')
+		return false;
+	if($('#subjects').find(":selected").text() == '')
+		return false;
+	if($('#isbn').val() == '')
+		return false;
+	return true;
+}
+
 function submitSellForm(){
 	var status = false;
 	if(validateSellBookFields()){
@@ -84,6 +94,31 @@ function sellAndAddBook(){
 	}
 }
 
+function searchBook(){
+	var status = false;
+	if(validateSearchBookFields()){
+		var input = $('#isbn').val()+"&"+$('#departments').find(":selected").text()+"&"+$('#subjects').find(":selected").text();
+		$.ajax({
+			url : '/s2sbooks/sell/rest/booksInfoManager/search',
+			type : 'GET',
+			data: input,
+			async : false,
+			datatype : "application/json",
+			contentType: "application/json; charset=utf-8",
+			success : function(data) {
+				if(data.code == 'success'){
+					$("#results").load("/s2sbooks/buy/snips/results.jsp" );
+				} else{
+					alert(data.message);
+				}
+			}
+		});
+	}
+	else{
+		alert("Please enter all fields");
+	}
+	return status;
+}
 
 function createUser(){
 	if(validateSignUpFields()){
@@ -202,6 +237,7 @@ function loginResponse(data){
         }
 	});
 });*/
+
 function InputCustomerDetailItem(param1, param2) {
     this.param1 = param1;
     this.param2 = param2;

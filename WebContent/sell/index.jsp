@@ -24,24 +24,27 @@
                                       <div class="form-group">
                                       	 <label>Enter ISBN of text book</label>
                                          <input id="isbn" class="form-control" placeholder="ISBN">
+                                         <br/>
                                          <label>Title</label>
                                          <input id="title" class="form-control" placeholder="Title of Book">
+                                         <br/>
                                          <label>First Author</label>
                                          <input id="author" class="form-control" placeholder="Author">
+                                         <br/>
                                          <label>Edition</label>
                                          <input id="edition" class="form-control" placeholder="Edition">
+										 <br/>
 										 <label for="sel1">Condition:</label>
 										 <select class="form-control" id="conditions">
 										    <option value="Fair">Fair</option>
 										    <option value="Good">Good</option>
-										    <option value="Very_Good">Very_Good</option>
+										    <option value="Very_Good">Very Good</option>
 										    <option value="Excellent">Excellent</option>
 										  </select>
 											<br/>
 										<label for="sel1">Status:</label>
 										  <select class="form-control" id="status">
 										  	<option value="Available">Available</option>
-										    <option value="Sold">Sold</option>
 										  </select>
 										  <br/>
 										<label for="sel1">Department:</label>
@@ -61,7 +64,7 @@
 										  <label>Selling Price</label>
 	                                        <input id="price" class="form-control" placeholder="Selling Price">
                                       </div>
-                                      <a href="javascript:sellAndAddBook()" class="btn btn-lg btn-success btn-block">Submit and another book</a>
+                                      <a href="javascript:sellAndAddBook()" class="btn btn-lg btn-success btn-block">Submit and add another book</a>
                                       <a href="javascript:sellBook()" class="btn btn-lg btn-success btn-block">Submit</a>
                                       <!-- <button type="reset" class="btn btn-lg btn-success btn-block">Reset</button> -->
                                   </form>

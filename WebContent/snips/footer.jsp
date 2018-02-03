@@ -1,5 +1,5 @@
 <!-- jQuery -->
-    <script src="/s2sbooks/vendor/jquery/jquery.min.js"></script>
+    <!-- <script src="/s2sbooks/vendor/jquery/jquery.min.js"></script> -->
 
     <!-- Bootstrap Core JavaScript -->
     <script src="/s2sbooks/vendor/bootstrap/js/bootstrap.min.js"></script>
