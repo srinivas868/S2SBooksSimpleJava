@@ -34,7 +34,7 @@
                                          <label>Edition</label>
                                          <input id="edition" class="form-control" placeholder="Edition">
 										 <br/>
-										 <label for="sel1">Condition:</label>
+										 <label for="sel1">Condition</label>
 										 <select class="form-control" id="conditions">
 										    <option value="Fair">Fair</option>
 										    <option value="Good">Good</option>
@@ -42,19 +42,20 @@
 										    <option value="Excellent">Excellent</option>
 										  </select>
 											<br/>
-										<label for="sel1">Status:</label>
+										<label for="sel1">Status</label>
 										  <select class="form-control" id="status">
 										  	<option value="Available">Available</option>
+										  	<option value="Sold" disabled>Sold</option>
 										  </select>
 										  <br/>
-										<label for="sel1">Department:</label>
+										<label for="sel1">Department</label>
 										  <select class="form-control" id="departments">
 										  	<c:forEach items="${departmentItems}" var="item">
 										    	<option value="${item.title}">${item.title}</option>
 										    </c:forEach>
 										  </select>
 											<br/>
-										<label for="sel1">Subject:</label>
+										<label for="sel1">Subject</label>
 										  <select class="form-control" id="subjects">
 										  	<c:forEach items="${departmentItems[0].subjects}" var="item">
 										    	<option value="${item.title}">${item.title}</option>
@@ -64,7 +65,7 @@
 										  <label>Selling Price</label>
 	                                        <input id="price" class="form-control" placeholder="Selling Price">
                                       </div>
-                                      <a href="javascript:sellAndAddBook()" class="btn btn-lg btn-success btn-block">Submit and add another book</a>
+                                      <a href="javascript:sellAndAddBook()" class="btn btn-lg btn-success btn-block">Submit and Add Another Book</a>
                                       <a href="javascript:sellBook()" class="btn btn-lg btn-success btn-block">Submit</a>
                                       <!-- <button type="reset" class="btn btn-lg btn-success btn-block">Reset</button> -->
                                   </form>

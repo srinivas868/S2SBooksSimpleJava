@@ -18,6 +18,7 @@ import org.json.JSONObject;
 import com.s2sbooks.tools.S2SBooksTools;
 import com.s2sbooks.vo.BookSellingInfo;
 import com.s2sbooks.vo.User;
+import com.s2sbooks.vo.enumtypes.BookStatus;
 
 @Path("/booksInfoManager")
 public class BooksInfoManagerRestService {
@@ -37,11 +38,11 @@ public class BooksInfoManagerRestService {
 			String author = parameters[2];
 			String edition = parameters[3];
 			String condition = parameters[4];
-			String status = parameters[5];
+			String status = BookStatus.Available.toString();
 			String department = parameters[6];
 			String subject = parameters[7];
 			double price = Double.valueOf(parameters[8]);
-			User user = getCurrentUser();
+			User user = S2SBooksTools.getCurrentUser(getRequest());
 			BookSellingInfo bsInfo = new BookSellingInfo(isbn, title, author, edition, condition,
 															status, department, subject, price, user);
 			getS2SBooksTools().addItem(bsInfo);
@@ -63,7 +64,7 @@ public class BooksInfoManagerRestService {
 			double isbn = Double.valueOf(parameters[0]);
 			String department = parameters[1];
 			String subject = parameters[2];
-			List bookInfoItems = getS2SBooksTools().searchBookItems(BookSellingInfo.class, isbn, department, subject, true);
+			List bookInfoItems = getS2SBooksTools().searchBookItems(BookSellingInfo.class, isbn, department, subject, false);
 			if(bookInfoItems != null) {
 				getRequest().getSession().setAttribute("bookInfoItems", bookInfoItems);
 				responseJson.put("code", "success");
@@ -80,14 +81,62 @@ public class BooksInfoManagerRestService {
 		return responseJson.toString();
 	}
 	
-	public User getCurrentUser() {
-		User user = (User) getRequest().getSession().getAttribute("user");
-		if(user != null) {
-			return user;
+	@GET
+	@Path("/searchwithedit")
+    @Produces(MediaType.APPLICATION_JSON)
+	public String searchwithedit(@Context UriInfo uriInfo) throws JSONException {
+		JSONObject responseJson = new JSONObject();
+		try {
+			String parameter = uriInfo.getRequestUri().getQuery();
+			double isbn = Double.valueOf(parameter);
+			List bookInfoEditItems = getS2SBooksTools().searchBookItemsWithISBN(BookSellingInfo.class, isbn, request, false);
+			if(bookInfoEditItems != null) {
+				getRequest().getSession().setAttribute("bookInfoEditItems", bookInfoEditItems);
+				responseJson.put("code", "success");
+			}
+			else {
+				responseJson.put("code", "failed");
+				responseJson.put("message", "Did not match any record");
+			}
+		} catch (Exception e) {
+			Log.error("Error while adding item to database : "+e);
+			responseJson.put("code", "error");
+			responseJson.put("message", "Something wrong!");
 		}
-		return null;
+		return responseJson.toString();
 	}
-
+	
+	@GET
+	@Path("/update")
+    @Produces(MediaType.APPLICATION_JSON)
+	public String update(@Context UriInfo uriInfo) throws JSONException {
+		JSONObject responseJson = new JSONObject();
+		try {
+			String parameters[] = uriInfo.getRequestUri().getQuery().split("&");
+			double isbn = Double.valueOf(parameters[0]);
+			String title = parameters[1];
+			String author = parameters[2];
+			String edition = parameters[3];
+			String condition = parameters[4];
+			String status = parameters[5];
+			String department = parameters[6];
+			String subject = parameters[7];
+			double price = Double.valueOf(parameters[8]);
+			int id = Integer.valueOf(parameters[9]);
+			BookSellingInfo bsInfo = (BookSellingInfo) getS2SBooksTools().getItem(BookSellingInfo.class, id);
+			bsInfo.updateAll(isbn, title, author, edition, condition,
+								status, department, subject, price);
+			getS2SBooksTools().updateItem(bsInfo, true);
+			responseJson.put("code", "success");
+		} catch (Exception e) {
+			Log.error("Error while adding item to database : "+e);
+			responseJson.put("code", "error");
+			responseJson.put("message", "Something wrong!");
+		}
+		return responseJson.toString();
+	}
+	
+	
 	public HttpServletRequest getRequest() {
 		return request;
 	}

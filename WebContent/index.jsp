@@ -37,7 +37,7 @@
                                 <a href="/s2sbooks/sell/" class="btn btn-primary btn-lg">Sell Book</a>
                             </p>
                             <p>
-                                <a href="/s2sbooks/" class="btn btn-primary btn-lg">Edit Book</a>
+                                <a href="/s2sbooks/edit/" class="btn btn-primary btn-lg">Edit Book</a>
                             </p>
                         </div>
                         <!-- /.panel-body -->

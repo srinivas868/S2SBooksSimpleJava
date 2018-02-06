@@ -17,16 +17,17 @@
 <link href="/s2sbooks/vendor/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
 
-<script src="https://code.jquery.com/jquery-1.12.4.js" type="text/javascript"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.js" type="text/javascript"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.min.js" type="text/javascript"></script>
 <script src="http://malsup.github.com/jquery.form.js"></script>
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" type="text/javascript"></script>
 <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="/s2sbooks/js/common.js"></script>
 
 <!-- editable -->
-<link href="path/to/bootstrap/css/bootstrap.css" rel="stylesheet">
-<script src="path/to/jquery/jquery-1.8.2.min.js"></script>
-<script src="path/to/bootstrap/js/bootstrap.min.js"></script>
+<script src="/s2sbooks/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="https://vitalets.github.io/x-editable/assets/bootstrap/js/bootstrap.js"></script> 
+<!-- <link href="https://vitalets.github.io/x-editable/assets/x-editable/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+<script src="https://vitalets.github.io/x-editable/assets/x-editable/bootstrap-editable/js/bootstrap-editable.js"></script>  -->
 
-<link href="path/to/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet">
-<script src="path/to/bootstrap-editable/js/bootstrap-editable.min.js"></script>
+<script src="/s2sbooks/js/jquery.editable.js"></script>

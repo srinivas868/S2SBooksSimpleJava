@@ -25,18 +25,20 @@
 									<th>Edition</th>
 									<th>Condition</th>
 									<th>Selling Price</th>
+									<th>Seller Email</th>
 								</tr>
 							</thead>
 							<tbody>
 								<c:forEach items="${bookInfoItems}" var="item">
 									<tr class="odd gradeX">
 										<td>${item.status}</td>
-										<td>${item.isbn}</td>
+										<td><fmt:formatNumber value = "${item.isbn}" type = "NUMBER" pattern="#" /></td>
 										<td>${item.title}</td>
 										<td>${item.firstAuthor}</td>
 										<td>${item.edition}</td>
 										<td>${item.condition}</td>
-										<td>$${item.price}</td>
+										<td><fmt:formatNumber value = "${item.price}" type = "CURRENCY" /></td>
+										<td>${item.user.email}</td>
 									</tr>
 								</c:forEach>
 							</tbody>

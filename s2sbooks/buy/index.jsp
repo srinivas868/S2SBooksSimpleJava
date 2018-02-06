@@ -22,24 +22,24 @@
                               <div class="col-lg-6">
                                   <form role="form">
                                       <div class="form-group">
-										  <label for="sel1">Department:</label>
+										  <label for="sel1">Department</label>
 										  <select class="form-control" id="departments">
 										  	<c:forEach items="${departmentItems}" var="item">
 										    	<option value="${item.title}">${item.title}</option>
 										    </c:forEach>
 										  </select>
 											<br/>
-										<label for="sel1">Subject:</label>
+										<label for="sel1">Subject</label>
 										  <select class="form-control" id="subjects">
 										  	<c:forEach items="${departmentItems[0].subjects}" var="item">
 										    	<option value="${item.title}">${item.title}</option>
 										    </c:forEach>
 										  </select>
 										  <br/>
-                                         <label>Enter ISBN of text book</label>
-                                         <input id="isbn" class="form-control" placeholder="Enter ISBN">
+                                         <label>ISBN (13 digits without dashes)</label>
+                                         <input id="isbn" class="form-control" placeholder="ISBN">
                                       </div>
-                                      <a href="javascript:searchBook()" class="btn btn-lg btn-success btn-block">Search</a>
+                                      <a href="javascript:searchBook()" class="btn btn-lg btn-success btn-block">Submit</a>
                                   </form>
                               </div>
                               <!-- /.col-lg-6 (nested) -->

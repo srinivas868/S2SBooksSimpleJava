@@ -2,6 +2,9 @@ package com.s2sbooks.tools;
 
 import java.util.List;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -27,7 +30,7 @@ public class S2SBooksTools {
 	 * @return
 	 * @throws Exception
 	 */
-	public Object getItem(Class classType, String pItemId) throws Exception {
+	public Object getItem(Class classType, int pItemId) throws Exception {
 		return getItem(classType, pItemId, true);
 	}
 	
@@ -49,6 +52,31 @@ public class S2SBooksTools {
 		} finally{
 			if(pCloseSession){
 				session.close(); 
+			}
+		}
+	}
+	
+	/** this method will return bookinfo item for given parameters
+	 * @param classType
+	 * @param request 
+	 * @param pItemId
+	 * @param pCloseSession
+	 * @return
+	 * @throws Exception
+	 */
+	public List searchBookItemsWithISBN(Class<BookSellingInfo> classType, double isbn, HttpServletRequest request, boolean pCloseSession) throws Exception {
+		Session session = null;
+		try{
+			session = getSessionFactory().openSession();
+			Query query = session.createQuery("from BookSellingInfo b where b.isbn = :isbn and b.user =:user");
+			query.setParameter("isbn", isbn);
+			query.setEntity("user", S2SBooksTools.getCurrentUser(request));
+			return (List) query.list();
+		} catch (Throwable e) {
+			throw new Exception(e);
+		} finally{
+			if(pCloseSession){
+				session.close();
 			}
 		}
 	}
@@ -87,11 +115,11 @@ public class S2SBooksTools {
 	 * @return
 	 * @throws Exception
 	 */
-	public Object getItem(Class<User> classType, String pItemId, boolean pCloseSession) throws Exception {
+	public Object getItem(Class<User> classType, int pItemId, boolean pCloseSession) throws Exception {
 		Session session = null;
 		try{
 			session = getSessionFactory().openSession();
-			return session.get(classType,Integer.valueOf(pItemId));
+			return session.get(classType,pItemId);
 		} catch (Throwable e) {
 			throw new Exception(e);
 		} finally{
@@ -101,12 +129,16 @@ public class S2SBooksTools {
 		}
 	}
 	
+	public boolean addItem(Object pItem) throws Exception {
+		return addItem(pItem, true);
+	}
+	
 	/** this method will write the data to Database
 	 * @param pItem
 	 * @return
 	 * @throws Exception
 	 */
-	public boolean addItem(Object pItem) throws Exception {
+	public boolean addItem(Object pItem, boolean pCloseSession) throws Exception {
 		Session session = null;
 		try{
 			session = getSessionFactory().openSession();
@@ -116,7 +148,31 @@ public class S2SBooksTools {
 		} catch (Throwable e) {
 			throw new Exception(e);
 		} finally{
-			session.close(); 
+			if(pCloseSession){
+				session.close();
+			}
+		}
+		return true;
+	}
+	
+	/** this method will update the data to Database
+	 * @param pItem
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean updateItem(Object pItem, boolean pCloseSession) throws Exception {
+		Session session = null;
+		try{
+			session = getSessionFactory().openSession();
+			Transaction tx = session.beginTransaction();
+			session.update(pItem);
+			tx.commit();
+		} catch (Throwable e) {
+			throw new Exception(e);
+		} finally{
+			if(pCloseSession){
+				session.close();
+			}
 		}
 		return true;
 	}
@@ -146,6 +202,33 @@ public class S2SBooksTools {
 		}
 	}
 	
+	public List getBookItemByUser(HttpServletRequest request) throws Exception {
+		Session session = null;
+		try{
+			session = getSessionFactory().openSession();
+			Query query = session.createQuery("FROM BookSellingInfo as b where b.user=:user");
+			query.setEntity("user", S2SBooksTools.getCurrentUser(request));
+			List items =  query.list();
+			if(items != null && !items.isEmpty()){
+				return items;
+			} else{
+				return null;
+			}
+		} catch (Throwable e) {
+			throw new Exception(e);
+		} finally{
+			session.close(); 
+		}
+	}
+	
+	public static User getCurrentUser(HttpServletRequest request) {
+		User user = (User) request.getSession().getAttribute("user");
+		if(user != null) {
+			return user;
+		}
+		return null;
+	}
+	
 	public Configuration getConfiguration() {
 		return cfg;
 	}
@@ -160,4 +243,5 @@ public class S2SBooksTools {
 		}
 		return sessionFactory;
 	}
+
 }

@@ -6,12 +6,12 @@ import com.s2sbooks.vo.enumtypes.BookStatus;
 public class BookSellingInfo {
 
 	private int id;
-	private BookStatus status;
+	private String status;
 	private double isbn;
 	private String title;
 	private String firstAuthor;
 	private String edition;
-	private BookCondition condition;
+	private String condition;
 	private double price;
 	private User user;
 	private String department;
@@ -25,12 +25,25 @@ public class BookSellingInfo {
 		this.title = title;
 		this.firstAuthor = author;
 		this.edition = edition;
-		this.condition = BookCondition.valueOf(condition);
-		this.status = BookStatus.valueOf(status);
+		this.condition = condition;
+		this.status = status;
 		this.department = department;
 		this.subject = subject;
 		this.price = price;
 		this.user = user;
+	}
+	
+	public void updateAll(double isbn, String title, String author, String edition, String condition,  
+			String status, String department, String subject, double price) {
+		this.isbn = isbn;
+		this.title = title;
+		this.firstAuthor = author;
+		this.edition = edition;
+		this.condition = condition;
+		this.status = status;
+		this.department = department;
+		this.subject = subject;
+		this.price = price;
 	}
 
 	public int getId() {
@@ -39,10 +52,10 @@ public class BookSellingInfo {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public BookStatus getStatus() {
+	public String getStatus() {
 		return status;
 	}
-	public void setStatus(BookStatus status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 	public double getIsbn() {
@@ -75,10 +88,10 @@ public class BookSellingInfo {
 	public void setPrice(double price) {
 		this.price = price;
 	}
-	public BookCondition getCondition() {
+	public String getCondition() {
 		return condition;
 	}
-	public void setCondition(BookCondition condition) {
+	public void setCondition(String condition) {
 		this.condition = condition;
 	}
 	public User getUser() {

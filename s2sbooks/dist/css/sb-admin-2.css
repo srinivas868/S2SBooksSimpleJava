@@ -200,6 +200,12 @@ table.dataTable thead .sorting_desc_disabled {
 .dropdown-cs{
 	text-align:center;
 }
+.edit{
+	margin-left:30px;
+}
+.btn_edit{
+	margin-left:100px;
+}
 /* End Custom */
 table.dataTable thead .sorting_asc:after {
   content: "\f0de";

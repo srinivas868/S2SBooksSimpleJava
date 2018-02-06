@@ -23,19 +23,7 @@ function validateLoginFields(){
 function validateSellBookFields(){
 	if($('#isbn').val() == '')
 		return false;
-	if($('#title').val() == '')
-		return false;
-	if($('#author').val() == '')
-		return false;
-	if($('#edition').val() == '')
-		return false;
 	if($('#conditions').find(":selected").text() == '')
-		return false;
-	if($('#status').find(":selected").text() == '')
-		return false;
-	if($('#departments').find(":selected").text() == '')
-		return false;
-	if($('#subjects').find(":selected").text() == '')
 		return false;
 	if($('#price').val() == '')
 		return false;
@@ -108,6 +96,32 @@ function searchBook(){
 			success : function(data) {
 				if(data.code == 'success'){
 					$("#results").load("/s2sbooks/buy/snips/results.jsp" );
+				} else{
+					alert(data.message);
+				}
+			}
+		});
+	}
+	else{
+		alert("Please enter all fields");
+	}
+	return status;
+}
+
+function searchBookWithEdit(){
+	var status = false;
+	if($('#isbn').val() != ''){
+		var input = $('#isbn').val();
+		$.ajax({
+			url : '/s2sbooks/sell/rest/booksInfoManager/searchwithedit',
+			type : 'GET',
+			data: input,
+			async : false,
+			datatype : "application/json",
+			contentType: "application/json; charset=utf-8",
+			success : function(data) {
+				if(data.code == 'success'){
+					$("#results").load("/s2sbooks/edit/snips/results.jsp" );
 				} else{
 					alert(data.message);
 				}
@@ -219,6 +233,31 @@ function loginResponse(data){
 	}
 }
 
+function saveBook(){
+	var status = false;
+	var input = $('.isbn-editable').text()+"&"+$('.title-editable').text()+"&"+$('.author-editable').text()+"&"+$('.edition-editable').val()+"&"
+				+$('#condition').find(":selected").text()+"&"+$('#status').find(":selected").text()+"&"
+				+$('#department').find(":selected").text()+"&"+$('#subject').find(":selected").text()+"&"
+				+$('.price-editable').text()+"&"+$('#id').val();
+	$.ajax({
+		url : '/s2sbooks/sell/rest/booksInfoManager/update',
+		type : 'GET',
+		data: input,
+		async : false,
+		datatype : "application/json",
+		contentType: "application/json; charset=utf-8",
+		success : function(data) {
+			if(data.code == 'success'){
+				alert("Edit book was successful")
+				window.location.href = "/s2sbooks/edit/";
+			} else{
+				alert(data.message);
+			}
+		}
+	});
+	return status;
+}
+
 /*$(document).ready(function(){
 	$.ajax({
         url : '/nviz/account/rest/usermanager/validateLogin',
@@ -237,6 +276,11 @@ function loginResponse(data){
         }
 	});
 });*/
+
+function clicked() {
+	alert('I want this');
+	document.getElementById('isbn1').click();
+	}
 
 function InputCustomerDetailItem(param1, param2) {
     this.param1 = param1;

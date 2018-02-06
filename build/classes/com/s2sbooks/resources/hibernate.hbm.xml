@@ -26,7 +26,7 @@
 	    <id name="id" column="book_selling_id" type="integer">
           <generator class="increment"></generator>
         </id>
-		<property name="status" column="STATUS" type="com.s2sbooks.vo.enumtypes.BookStatus">
+		<property name="status" column="STATUS" type="java.lang.String">
 				</property>
 		<property name="isbn" column="ISBN" type="double">
 				</property>
@@ -34,7 +34,7 @@
 				</property>
 		<property name="firstAuthor" column="FIRST_AUTHOR" type="java.lang.String">
 				</property>
-		<property name="condition" column="BOOK_CONDITION" type="com.s2sbooks.vo.enumtypes.BookCondition">
+		<property name="condition" column="BOOK_CONDITION" type="java.lang.String">
 				</property>
 		<property name="edition" column="EDITION" type="java.lang.String">
 				</property>
