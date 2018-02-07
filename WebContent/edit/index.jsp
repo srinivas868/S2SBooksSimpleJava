@@ -50,39 +50,4 @@
 	<jsp:include page="/snips/footer.jsp" />
 
 </body>
-<script>
-$('.isbn').editable({
-	type: 'text',
-    title: 'Enter username',
-    success: function(response, newValue) {
-        console.log("Done"); //update backbone model
-    }
- });
- 
-$('.title').editable({
-	type: 'text',
-    title: 'Enter username',
-    success: function(response, newValue) {
-        console.log("Done"); //update backbone model
-    }
- });
- 
-$('.author').editable({
-	type: 'text',
-    title: 'Enter username',
-    success: function(response, newValue) {
-        console.log("Done"); //update backbone model
-    }
- });
- 
-$('.condition').editable({
-    value: 2,    
-    source: [
-          {value: 1, text: 'Active'},
-          {value: 2, text: 'Blocked'},
-          {value: 3, text: 'Deleted'}
-       ]
- });
- 
-</script>
 </html>

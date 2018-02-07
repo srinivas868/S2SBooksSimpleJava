@@ -28,35 +28,42 @@
                                          <label>Title</label>
                                          <input id="title" class="form-control" placeholder="Title of Book">
                                          <br/>
-                                         <label>First Author</label>
+                                         <label>1st Author</label>
                                          <input id="author" class="form-control" placeholder="Author">
                                          <br/>
                                          <label>Edition</label>
                                          <input id="edition" class="form-control" placeholder="Edition">
 										 <br/>
 										 <label for="sel1">Condition</label>
-										 <select class="form-control" id="conditions">
-										    <option value="Fair">Fair</option>
-										    <option value="Good">Good</option>
-										    <option value="Very_Good">Very Good</option>
-										    <option value="Excellent">Excellent</option>
+										 <select class="form-control" id="condition">
+										  	<c:forEach items="${bookConditionItems}" var="item">
+										    	<option value="${item.title}">${item.title}</option>
+										    </c:forEach>
 										  </select>
 											<br/>
 										<label for="sel1">Status</label>
 										  <select class="form-control" id="status">
-										  	<option value="Available">Available</option>
-										  	<option value="Sold" disabled>Sold</option>
+										  	<c:forEach items="${bookStatusItems}" var="item">
+										  		<c:choose>
+											  			<c:when test="${item.title eq 'Sold'}">
+											  				<option value="${item.title}" disabled="disabled">${item.title}</option>
+											  			</c:when>
+											  			<c:otherwise>
+											  				<option value="${item.title}">${item.title}</option>
+											  			</c:otherwise>
+											  		</c:choose>
+										    </c:forEach>
 										  </select>
 										  <br/>
 										<label for="sel1">Department</label>
-										  <select class="form-control" id="departments">
+										  <select class="form-control" id="department">
 										  	<c:forEach items="${departmentItems}" var="item">
 										    	<option value="${item.title}">${item.title}</option>
 										    </c:forEach>
 										  </select>
 											<br/>
 										<label for="sel1">Subject</label>
-										  <select class="form-control" id="subjects">
+										  <select class="form-control" id="subject">
 										  	<c:forEach items="${departmentItems[0].subjects}" var="item">
 										    	<option value="${item.title}">${item.title}</option>
 										    </c:forEach>

@@ -1,8 +1,5 @@
 package com.s2sbooks.vo;
 
-import com.s2sbooks.vo.enumtypes.BookCondition;
-import com.s2sbooks.vo.enumtypes.BookStatus;
-
 public class BookSellingInfo {
 
 	private int id;

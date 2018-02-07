@@ -1,17 +1,16 @@
 package com.s2sbooks.vo;
 
-import com.s2sbooks.vo.enumtypes.Verified;
-
 public class User implements java.io.Serializable {
 
     private static final long serialVersionUID = 1L;
     private int id;
     private String email;
     private String password;
-    private Verified verified;
+    private boolean verified;
     private String firstName;
     private String lastName;
     private String cellNumber;
+    private boolean termsAgreed; 
 	
     public User(String firstName, String lastName, String email, String password) {
     	this.firstName = firstName;
@@ -40,12 +39,6 @@ public class User implements java.io.Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public Verified isVerified() {
-		return verified;
-	}
-	public void setVerified(Verified verified) {
-		this.verified = verified;
-	}
 	public String getFirstName() {
 		return firstName;
 	}
@@ -64,4 +57,21 @@ public class User implements java.io.Serializable {
 	public void setCellNumber(String cellNumber) {
 		this.cellNumber = cellNumber;
 	}
+
+	public boolean isTermsAgreed() {
+		return termsAgreed;
+	}
+
+	public void setTermsAgreed(boolean termsAgreed) {
+		this.termsAgreed = termsAgreed;
+	}
+
+	public boolean isVerified() {
+		return verified;
+	}
+
+	public void setVerified(boolean verified) {
+		this.verified = verified;
+	}
+
 }

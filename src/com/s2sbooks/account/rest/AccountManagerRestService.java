@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import com.s2sbooks.account.util.PasswordUtil;
 import com.s2sbooks.tools.S2SBooksTools;
+import com.s2sbooks.vo.BookSellingInfo;
 import com.s2sbooks.vo.User;
 
 @Path("/accountmanager")
@@ -42,6 +43,7 @@ public class AccountManagerRestService {
 				User user = new User(firstName, lastName, email, password);
 				getS2SBooksTools().addItem(user);
 				responseJson.put("code", "success");
+				getRequest().getSession().setAttribute("user", user);
 			}
 		}catch (Exception e) {
 			Log.error("Error while adding item to database : "+e.getMessage());
@@ -64,6 +66,9 @@ public class AccountManagerRestService {
 				responseJson.put("code", "error");
 				responseJson.put("message", "Your email or password did not match");
 			} else {
+				if(user.isTermsAgreed()) {
+					responseJson.put("termsAgreed", "true");
+				}
 				responseJson.put("code", "success");
 				getRequest().getSession().setAttribute("user", user);
 			}
@@ -84,7 +89,51 @@ public class AccountManagerRestService {
 			responseJson.put("code","success");
 		} catch (Exception e) {
 			responseJson.put("code","failed");
+			responseJson.put("message","Something went wrong!");
 			Log.error("Exeception while checking logout : "+e.getMessage());
+		}
+		return responseJson.toString();
+	}
+	
+	@GET
+	@Path("/terms")
+    @Produces(MediaType.APPLICATION_JSON)
+	public String agreeTerms(@Context UriInfo uriInfo) throws JSONException {
+		JSONObject responseJson = new JSONObject();
+		String parameter = uriInfo.getRequestUri().getQuery();
+		if(parameter != null) {
+			boolean status = Boolean.valueOf(parameter);
+			if(status) {
+				try {
+					if(getRequest() != null){
+						User user = (User) getRequest().getSession().getAttribute("user");
+						if(user != null){
+							User userItem = (User) getS2SBooksTools().getItem(User.class, user.getId());
+							userItem.setTermsAgreed(true);
+							getS2SBooksTools().updateItem(userItem, true);
+							responseJson.put("code", "success");
+						} else{
+							responseJson.put("code", "error");
+							responseJson.put("message","Something went wrong!");
+						}
+					} else{
+						Log.info("UserManagerRestService:: validateUserLogin:: request found empty.");
+						responseJson.put("code", "error");
+						responseJson.put("message","Something went wrong!");
+					}
+				} catch (Exception e) {
+					responseJson.put("code","failed");
+					responseJson.put("message","Something went wrong!");
+					Log.error("Exeception while checking logout : "+e.getMessage());
+				}
+			}
+			else {
+				return logout(uriInfo);
+			}
+		}
+		else {
+			responseJson.put("code","failed");
+			responseJson.put("message","Something went wrong!");
 		}
 		return responseJson.toString();
 	}

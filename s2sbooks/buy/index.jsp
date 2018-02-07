@@ -23,14 +23,14 @@
                                   <form role="form">
                                       <div class="form-group">
 										  <label for="sel1">Department</label>
-										  <select class="form-control" id="departments">
+										  <select class="form-control" id="department">
 										  	<c:forEach items="${departmentItems}" var="item">
 										    	<option value="${item.title}">${item.title}</option>
 										    </c:forEach>
 										  </select>
 											<br/>
 										<label for="sel1">Subject</label>
-										  <select class="form-control" id="subjects">
+										  <select class="form-control" id="subject">
 										  	<c:forEach items="${departmentItems[0].subjects}" var="item">
 										    	<option value="${item.title}">${item.title}</option>
 										    </c:forEach>

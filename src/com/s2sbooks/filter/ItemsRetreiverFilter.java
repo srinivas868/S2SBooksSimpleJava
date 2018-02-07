@@ -28,12 +28,17 @@ public class ItemsRetreiverFilter implements Filter{
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain pChain) throws IOException, ServletException {
 		try {
-			List departmentItems = getS2SBooksTools().getItems("Department",false);
+			List departmentItems = getS2SBooksTools().getItems("Department",true);
 			List bookInfoItems = getS2SBooksTools().getItems("BookSellingInfo",false);
+			List bookConditionItems = getS2SBooksTools().getItems("BookCondition",false);
+			List bookStatusItems = getS2SBooksTools().getItems("BookStatus",false);
 			request.setAttribute("departmentItems", departmentItems);
 			request.setAttribute("bookInfoItems", bookInfoItems);
+			request.setAttribute("bookConditionItems", bookConditionItems);
+			request.setAttribute("bookStatusItems", bookStatusItems);
 		} catch (Exception e) {
-			Log.debug("Exception while fetching survey items "+e);
+			//Log.error("Exception while fetching survey items "+e);
+			e.printStackTrace();
 		} finally{
 			pChain.doFilter(request,response);
 		}

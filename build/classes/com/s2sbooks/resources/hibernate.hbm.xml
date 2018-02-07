@@ -4,7 +4,7 @@
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-	<class name="com.s2sbooks.vo.User" table="S2S_USER_MASTER_2">
+	<class name="com.s2sbooks.vo.User" table="S2S_USER_MASTER">
 	    <id name="id" column="user_id" type="integer">
           <generator class="increment"></generator>
         </id>
@@ -18,8 +18,10 @@
 				</property>
 		<property name="cellNumber" column="CELL_NUMBER" type="java.lang.String">
 				</property>
-		<property name="verified" column="VERIFIED" type="com.s2sbooks.vo.enumtypes.Verified">
+		<property name="verified" column="VERIFIED" type="boolean">
 				</property>
+		<property name="termsAgreed" column="TERMS_AGREED" type="boolean">
+				</property>	
 	</class>
 	
 	<class name="com.s2sbooks.vo.BookSellingInfo" table="S2S_BOOK_SELLING_INFO">
@@ -64,6 +66,22 @@
 	
 	<class name="com.s2sbooks.vo.Subject" table="S2S_BOOK_SUBJECT">
 	    <id name="id" column="subject_id" type="integer">
+          <generator class="increment"></generator>
+        </id>
+		<property name="title" column="TITLE" type="java.lang.String">
+		</property>
+	</class>
+	
+	<class name="com.s2sbooks.vo.BookCondition" table="S2S_BOOK_CONDITION">
+	    <id name="id" column="condition_id" type="integer">
+          <generator class="increment"></generator>
+        </id>
+		<property name="title" column="TITLE" type="java.lang.String">
+		</property>
+	</class>
+	
+	<class name="com.s2sbooks.vo.BookStatus" table="S2S_BOOK_STATUS">
+	    <id name="id" column="status_id" type="integer">
           <generator class="increment"></generator>
         </id>
 		<property name="title" column="TITLE" type="java.lang.String">
