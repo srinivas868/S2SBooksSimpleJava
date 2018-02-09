@@ -1,6 +1,7 @@
 package com.s2sbooks.filter;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.Filter;
@@ -29,9 +30,9 @@ public class ItemsRetreiverFilter implements Filter{
 			FilterChain pChain) throws IOException, ServletException {
 		try {
 			List departmentItems = getS2SBooksTools().getItems("Department",true);
-			List bookInfoItems = getS2SBooksTools().getItems("BookSellingInfo",false);
-			List bookConditionItems = getS2SBooksTools().getItems("BookCondition",false);
-			List bookStatusItems = getS2SBooksTools().getItems("BookStatus",false);
+			List bookInfoItems = getS2SBooksTools().getItems("BookSellingInfo",true);
+			List bookConditionItems = getS2SBooksTools().getItems("BookCondition",true);
+			List bookStatusItems = getS2SBooksTools().getItems("BookStatus",true);
 			request.setAttribute("departmentItems", departmentItems);
 			request.setAttribute("bookInfoItems", bookInfoItems);
 			request.setAttribute("bookConditionItems", bookConditionItems);
@@ -60,3 +61,4 @@ public class ItemsRetreiverFilter implements Filter{
 	}
 
 }
+

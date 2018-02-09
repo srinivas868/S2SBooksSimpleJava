@@ -11,6 +11,7 @@
 		<property name="hibernate.connection.password">root</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
 		<property name="hbm2ddl.auto">update</property>
+		<property name="current_session_context_class">thread</property> 
 		<property name="show_sql">true</property>
 		<!-- <mapping class="com.s2sbooks.vo.User" /> -->
 		<mapping resource="com/s2sbooks/resources/hibernate.hbm.xml" />

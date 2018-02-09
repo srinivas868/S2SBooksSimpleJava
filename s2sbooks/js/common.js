@@ -23,7 +23,7 @@ function validateLoginFields(){
 function validateSellBookFields(){
 	if($('#isbn').val() == '')
 		return false;
-	if($('#condition').find(":selected").text() == '')
+	if($('#condition').find(":selected").val() == '')
 		return false;
 	if($('#price').val() == '')
 		return false;
@@ -31,10 +31,10 @@ function validateSellBookFields(){
 }
 
 function validateSearchBookFields(){
-	if($('#department').find(":selected").text() == '')
+	/*if($('#department').find(":selected").text() == '')
 		return false;
 	if($('#subject').find(":selected").text() == '')
-		return false;
+		return false;*/
 	if($('#isbn').val() == '')
 		return false;
 	return true;
@@ -44,8 +44,8 @@ function submitSellForm(){
 	var status = false;
 	if(validateSellBookFields()){
 		var input = $('#isbn').val()+"&"+$('#title').val()+"&"+$('#author').val()+"&"+$('#edition').val()+"&"
-					+$('#condition').find(":selected").text()+"&"+$('#status').find(":selected").text()+"&"
-					+$('#department').find(":selected").text()+"&"+$('#subject').find(":selected").text()+"&"
+					+$('#condition').find(":selected").val()+"&"+$('#status').find(":selected").val()+"&"
+					+$('#department').find(":selected").val()+"&"+$('#subject').find(":selected").val()+"&"
 					+$('#price').val();
 		$.ajax({
 			url : '/s2sbooks/sell/rest/booksInfoManager/sell',
@@ -85,7 +85,8 @@ function sellAndAddBook(){
 function searchBook(){
 	var status = false;
 	if(validateSearchBookFields()){
-		var input = $('#isbn').val()+"&"+$('#department').find(":selected").text()+"&"+$('#subject').find(":selected").text();
+		//var input = $('#isbn').val()+"&"+$('#department').find(":selected").val()+"&"+$('#subject').find(":selected").val();
+		var input = $('#isbn').val();
 		$.ajax({
 			url : '/s2sbooks/sell/rest/booksInfoManager/search',
 			type : 'GET',
@@ -280,14 +281,16 @@ function loginResponse(data){
 	}
 }
 
-function saveBook(formNumber){
-	var status = false;
-	var input = $('.isbn-editable'+formNumber).text()+"&"+$('.title-editable'+formNumber).text()+"&"+$('.author-editable'+formNumber).text()
-				+"&"+$('.edition-editable'+formNumber).text()+"&"
-				+$('#condition'+formNumber).find(":selected").text()+"&"+$('#status'+formNumber).find(":selected").text()+"&"
-				+$('#department'+formNumber).find(":selected").text()+"&"+$('#subject'+formNumber).find(":selected").text()+"&"
-				+$('.price-editable'+formNumber).text()+"&"+$('#id'+formNumber).val();
-	$.ajax({
+function saveBook(){
+	var status = true;
+	var count = $('#count').val();
+	for(i =1; i<=count; i++){
+		var input = $('.isbn-editable'+i).text()+"&"+$('.title-editable'+i).text()+"&"+$('.author-editable'+i).text()
+					+"&"+$('.edition-editable'+i).text()+"&"
+					+$('#condition'+i).find(":selected").val()+"&"+$('#status'+i).find(":selected").val()+"&"
+					+$('#department'+i).find(":selected").val()+"&"+$('#subject'+i).find(":selected").val()+"&"
+					+$('.price-editable'+i).text()+"&"+$('#id'+i).val();
+		$.ajax({
 		url : '/s2sbooks/sell/rest/booksInfoManager/update',
 		type : 'GET',
 		data: input,
@@ -295,42 +298,61 @@ function saveBook(formNumber){
 		datatype : "application/json",
 		contentType: "application/json; charset=utf-8",
 		success : function(data) {
-			if(data.code == 'success'){
-				alert("Edit book was successful")
-				window.location.href = "/s2sbooks/edit/";
-			} else{
-				alert(data.message);
+			if(data.code != 'success'){
+				status = false;
+				alert(data.message+" : Book with ISBN "+$('.isbn-editable'+i).text());
 			}
 		}
-	});
+		});
+	}
+	if(status){
+		alert("Edit book was successful")
+		window.location.href = "/s2sbooks/edit/";
+	}
 	return status;
 }
 
-/*$(document).ready(function(){
-	$.ajax({
-        url : '/nviz/account/rest/usermanager/validateLogin',
-        type : 'GET',
-        async : false,
-        datatype : "application/json",
-        contentType: "application/json; charset=utf-8",
-        success : function(data) {
-        	if(data.status != 'Success'){
-        		console.log("User is not logged in");
-        		var loginPage = $('#loginPage').val();
-        		if(loginPage == undefined){
-        			$("#body").load( "/nviz/account/login.jsp" );
-        		}
-        	}
-        }
-	});
-});*/
-
-function clicked() {
-	alert('I want this');
-	document.getElementById('isbn1').click();
-	}
+function cancelSaveBook(){
+	//searchBookWithEdit();
+	window.location.href = "/s2sbooks/edit/";
+}
 
 function InputCustomerDetailItem(param1, param2) {
     this.param1 = param1;
     this.param2 = param2;
 }
+
+$(document).ready(function(){
+	$('select.department').change(function(){
+		var selected = $('select.department').find(":selected").text();
+		if(selected == 'Business'){
+			$("select.subject option").show();
+		}
+		else{
+			$("select.subject option").hide();
+			$("select.subject option[value='Other']").show();
+			$("select.subject option[value='']").show();
+		}
+	});
+	$('select.department').prepend($('<option>', {
+	    value: 'empty',
+	    text: '-- Please Select --',
+	    disabled: 'disabled',
+	    selected: 'selected'
+	}));
+	
+	$("select.subject").html($("select.subject  option").sort(function (a, b) {
+	    if(!a.value) return;
+	    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1
+	    })); 
+	$('select.subject').append($('<option>', {
+	    value: 'Other',
+	    text: 'Other'
+	}));
+	$('select.subject').prepend($('<option>', {
+	    value: 'empty',
+	    text: '-- Please Select --',
+	    disabled: 'disabled',
+	    selected: 'selected'
+	}));
+});

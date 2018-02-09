@@ -13,7 +13,7 @@
 			<div class="col-lg-12">
 				<div class="panel panel-default">
 					<!-- /.panel-heading -->
-					<div class="panel-body">
+					<div class="panel-body table-responsive">
 						<table width="100%" class="table table-striped table-bordered table-hover"
 							id="example">
 							<thead>
@@ -21,7 +21,7 @@
 									<th class="sorting">Status</th>
 									<th>ISBN</th>
 									<th>Title</th>
-									<th>First Author</th>
+									<th>1<sup>st</sup> Author</th>
 									<th>Edition</th>
 									<th>Condition</th>
 									<th>Selling Price</th>

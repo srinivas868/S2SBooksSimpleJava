@@ -42,16 +42,26 @@ public class S2SBooksTools {
 	 */
 	public List getItems(String pItemType, boolean pCloseSession) throws Exception {
 		Session session = null;
+		Transaction tx = null;
 		try{
 			session = getSessionFactory().openSession();
-			session.clear();
-			Query query = session.createQuery("FROM "+pItemType);
-			return (List) query.list();
+			if(session != null) {
+				tx = session.beginTransaction();
+				session.clear();
+				Query query = session.createQuery("FROM "+pItemType);
+				return (List) query.list();
+			}
+			else {
+				return null;
+			}
 		} catch (Throwable e) {
 			throw new Exception(e);
 		} finally{
-			if(pCloseSession){
-				session.close(); 
+			if(tx != null) {
+				tx.commit();
+			}
+			if(session != null) {
+				session.close();
 			}
 		}
 	}
@@ -64,18 +74,28 @@ public class S2SBooksTools {
 	 * @return
 	 * @throws Exception
 	 */
-	public List searchBookItemsWithISBN(Class<BookSellingInfo> classType, double isbn, HttpServletRequest request, boolean pCloseSession) throws Exception {
+	public List searchBookItemsWithISBN(Class<BookSellingInfo> classType, double isbn, HttpServletRequest request) throws Exception {
 		Session session = null;
+		Transaction tx = null;
 		try{
 			session = getSessionFactory().openSession();
-			Query query = session.createQuery("from BookSellingInfo b where b.isbn = :isbn and b.user =:user");
-			query.setParameter("isbn", isbn);
-			query.setEntity("user", S2SBooksTools.getCurrentUser(request));
-			return (List) query.list();
+			if(session != null) {
+				tx = session.beginTransaction();
+				Query query = session.createQuery("from BookSellingInfo b where b.isbn = :isbn and b.user =:user");
+				query.setParameter("isbn", isbn);
+				query.setEntity("user", S2SBooksTools.getCurrentUser(request));
+				return (List) query.list();
+			}
+			else {
+				return null;
+			}
 		} catch (Throwable e) {
 			throw new Exception(e);
 		} finally{
-			if(pCloseSession){
+			if(tx != null){
+				tx.commit();
+			}
+			if(session != null) {
 				session.close();
 			}
 		}
@@ -88,22 +108,28 @@ public class S2SBooksTools {
 	 * @return
 	 * @throws Exception
 	 */
-	public List searchBookItems(Class<BookSellingInfo> classType, double isbn, String department,
-							String subject, boolean pCloseSession) throws Exception {
+	public List searchBookItems(Class<BookSellingInfo> classType, double isbn) throws Exception {
 		Session session = null;
+		Transaction tx = null;
 		try{
 			session = getSessionFactory().openSession();
-			Query query = session.createQuery("from BookSellingInfo b where b.isbn = :isbn "
-												+ "and b.department = :department and b.subject = :subject");
-			query.setParameter("isbn", isbn);
-			query.setParameter("department", department);
-			query.setParameter("subject", subject);
-			return (List) query.list();
+			if(session != null) {
+				tx = session.beginTransaction();
+				Query query = session.createQuery("from BookSellingInfo b where b.isbn = :isbn");
+				query.setParameter("isbn", isbn);
+				return (List) query.list();
+			}
+			else {
+				return null;
+			}
 		} catch (Throwable e) {
 			throw new Exception(e);
 		} finally{
-			if(pCloseSession){
-				session.close(); 
+			if(tx != null){
+				tx.commit();
+			}
+			if(session != null) {
+				session.close();
 			}
 		}
 	}
@@ -117,14 +143,24 @@ public class S2SBooksTools {
 	 */
 	public Object getItem(Class<User> classType, int pItemId, boolean pCloseSession) throws Exception {
 		Session session = null;
+		Transaction tx = null;
 		try{
 			session = getSessionFactory().openSession();
-			return session.get(classType,pItemId);
+			if(session != null) {
+				tx = session.beginTransaction();
+				return session.get(classType,pItemId);
+			}
+			else {
+				return null;
+			}
 		} catch (Throwable e) {
 			throw new Exception(e);
 		} finally{
-			if(pCloseSession){
-				session.close(); 
+			if(tx != null){
+				tx.commit();
+			}
+			if(session != null) {
+				session.close();
 			}
 		}
 	}
@@ -140,15 +176,20 @@ public class S2SBooksTools {
 	 */
 	public boolean addItem(Object pItem, boolean pCloseSession) throws Exception {
 		Session session = null;
+		Transaction tx = null;
 		try{
 			session = getSessionFactory().openSession();
-			Transaction tx = session.beginTransaction();
-			session.persist(pItem);
-			tx.commit();
+			if(session != null) {
+				tx = session.beginTransaction();
+				session.persist(pItem);
+			}
 		} catch (Throwable e) {
 			throw new Exception(e);
 		} finally{
-			if(pCloseSession){
+			if(tx != null){
+				tx.commit();
+			}
+			if(session != null) {
 				session.close();
 			}
 		}
@@ -162,15 +203,20 @@ public class S2SBooksTools {
 	 */
 	public boolean updateItem(Object pItem, boolean pCloseSession) throws Exception {
 		Session session = null;
+		Transaction tx = null;
 		try{
 			session = getSessionFactory().openSession();
-			Transaction tx = session.beginTransaction();
-			session.update(pItem);
-			tx.commit();
+			if(session != null) {
+				tx = session.beginTransaction();
+				session.update(pItem);
+			}
 		} catch (Throwable e) {
 			throw new Exception(e);
 		} finally{
-			if(pCloseSession){
+			if(tx != null){
+				tx.commit();
+			}
+			if(session != null) {
 				session.close();
 			}
 		}
@@ -184,40 +230,65 @@ public class S2SBooksTools {
 	 */
 	public User login(String email, String password) throws Exception {
 		Session session = null;
+		Transaction tx = null;
 		try{
 			session = getSessionFactory().openSession();
-			Query query = session.createQuery("FROM User as u where u.email=:email and u.password=:password");
-			query.setString("email", email);
-			query.setString("password", password);
-			List users =  query.list();
-			if(users != null && !users.isEmpty()){
-				return (User) query.list().get(0);
-			} else{
+			if(session != null) {
+				tx = session.beginTransaction();
+				Query query = session.createQuery("FROM User as u where u.email=:email and u.password=:password");
+				query.setString("email", email);
+				query.setString("password", password);
+				List users =  query.list();
+				if(users != null && !users.isEmpty()){
+					return (User) query.list().get(0);
+				} else{
+					return null;
+				}
+			}
+			else {
 				return null;
 			}
 		} catch (Throwable e) {
 			throw new Exception(e);
 		} finally{
-			session.close(); 
+			if(tx != null){
+				tx.commit();
+			}
+			if(session != null) {
+				session.close();
+			}
 		}
 	}
 	
 	public List getBookItemByUser(HttpServletRequest request) throws Exception {
 		Session session = null;
+		Transaction tx = null;
 		try{
 			session = getSessionFactory().openSession();
-			Query query = session.createQuery("FROM BookSellingInfo as b where b.user=:user");
-			query.setEntity("user", S2SBooksTools.getCurrentUser(request));
-			List items =  query.list();
-			if(items != null && !items.isEmpty()){
-				return items;
-			} else{
+			if(session != null) {
+				tx = session.beginTransaction();
+				Query query = session.createQuery("FROM BookSellingInfo as b where b.user=:user");
+				query.setEntity("user", S2SBooksTools.getCurrentUser(request));
+				List items =  query.list();
+				if(items != null && !items.isEmpty()){
+					return items;
+				} else{
+					return null;
+				}
+			}
+			else {
 				return null;
 			}
+			
 		} catch (Throwable e) {
 			throw new Exception(e);
 		} finally{
-			session.close(); 
+			if(tx != null){
+				tx.commit();
+			}
+			if(session != null) {
+				session.close();
+			}
 		}
 	}
 	

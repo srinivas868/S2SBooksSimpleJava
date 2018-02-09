@@ -70,6 +70,7 @@ public class AccountManagerRestService {
 					responseJson.put("termsAgreed", "true");
 				}
 				responseJson.put("code", "success");
+				System.out.println("Login successfull "+user.getEmail());
 				getRequest().getSession().setAttribute("user", user);
 			}
 		} catch (Exception e) {

@@ -206,6 +206,9 @@ table.dataTable thead .sorting_desc_disabled {
 .btn_edit{
 	margin-left:100px;
 }
+input[type="text"]{
+	width:200px;
+}
 /* End Custom */
 table.dataTable thead .sorting_asc:after {
   content: "\f0de";

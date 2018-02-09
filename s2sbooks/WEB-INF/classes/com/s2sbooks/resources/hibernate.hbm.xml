@@ -42,7 +42,7 @@
 				</property>
 		<property name="price" column="PRICE" type="double">
 				</property>
-		<many-to-one name="user" column="USER" class="com.s2sbooks.vo.User" cascade="save-update" />
+		<many-to-one name="user" column="USER" class="com.s2sbooks.vo.User" cascade="save-update" lazy="false"/>
 		<property name="department" column="DEPARTMENT" type="java.lang.String">
 				</property>
 		<property name="subject" column="SUBJECT" type="java.lang.String">

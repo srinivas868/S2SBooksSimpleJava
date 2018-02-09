@@ -23,6 +23,7 @@ import com.s2sbooks.vo.enumtypes.BookStatus;
 @Path("/booksInfoManager")
 public class BooksInfoManagerRestService {
 	
+	private static final String EMPTY = "empty";
 	private S2SBooksTools s2SBooksTools;
 	@Context private HttpServletRequest request;
 
@@ -39,8 +40,8 @@ public class BooksInfoManagerRestService {
 			String edition = parameters[3];
 			String condition = parameters[4];
 			String status = BookStatus.Available.toString();
-			String department = parameters[6];
-			String subject = parameters[7];
+			String department = checkEmpty(parameters[6]);
+			String subject = checkEmpty(parameters[7]);
 			double price = Double.valueOf(parameters[8]);
 			User user = S2SBooksTools.getCurrentUser(getRequest());
 			BookSellingInfo bsInfo = new BookSellingInfo(isbn, title, author, edition, condition,
@@ -62,9 +63,9 @@ public class BooksInfoManagerRestService {
 		try {
 			String parameters[] = uriInfo.getRequestUri().getQuery().split("&");
 			double isbn = Double.valueOf(parameters[0]);
-			String department = parameters[1];
-			String subject = parameters[2];
-			List bookInfoItems = getS2SBooksTools().searchBookItems(BookSellingInfo.class, isbn, department, subject, false);
+			//String department = checkEmpty(parameters[1]);
+			//String subject = checkEmpty(parameters[2]);
+			List bookInfoItems = getS2SBooksTools().searchBookItems(BookSellingInfo.class, isbn);
 			if(bookInfoItems != null) {
 				getRequest().getSession().setAttribute("bookInfoItems", bookInfoItems);
 				responseJson.put("code", "success");
@@ -89,7 +90,7 @@ public class BooksInfoManagerRestService {
 		try {
 			String parameter = uriInfo.getRequestUri().getQuery();
 			double isbn = Double.valueOf(parameter);
-			List bookInfoEditItems = getS2SBooksTools().searchBookItemsWithISBN(BookSellingInfo.class, isbn, request, false);
+			List bookInfoEditItems = getS2SBooksTools().searchBookItemsWithISBN(BookSellingInfo.class, isbn, request);
 			if(bookInfoEditItems != null) {
 				getRequest().getSession().setAttribute("bookInfoEditItems", bookInfoEditItems);
 				responseJson.put("code", "success");
@@ -119,8 +120,8 @@ public class BooksInfoManagerRestService {
 			String edition = parameters[3];
 			String condition = parameters[4];
 			String status = parameters[5];
-			String department = parameters[6];
-			String subject = parameters[7];
+			String department = checkEmpty(parameters[6]);
+			String subject = checkEmpty(parameters[7]);
 			double price = Double.valueOf(parameters[8]);
 			int id = Integer.valueOf(parameters[9]);
 			BookSellingInfo bsInfo = (BookSellingInfo) getS2SBooksTools().getItem(BookSellingInfo.class, id);
@@ -136,6 +137,12 @@ public class BooksInfoManagerRestService {
 		return responseJson.toString();
 	}
 	
+	private String checkEmpty(String attribute) {
+		if(attribute.isEmpty()) {
+			attribute = EMPTY;
+		}
+		return attribute;
+	}
 	
 	public HttpServletRequest getRequest() {
 		return request;

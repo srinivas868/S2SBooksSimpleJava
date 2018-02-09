@@ -23,14 +23,16 @@ public class HibernateMappingTest {
 	    Session session = null;  
 	    try{
 	    	session = sf.openSession();
-	    	Query query = session.createQuery("From Department");
+	    	/*Query query = session.createQuery("From Department");
 		    query.setCacheable(true);
-		    List<Department> list = query.list();
-		    Subject item = new Subject("Strategyy");
-		    Department dept = list.get(0);
+		    List<Department> dList = query.list();
+		    query = session.createQuery("From Subject");
+		    List<Subject> sList = query.list(); 
+		    Department dept = dList.get(0);
+		    dept.setSubjects(sList);
 			Transaction tx = session.beginTransaction();
-			session.persist(item);
-			tx.commit();
+			session.persist(subject);
+			tx.commit();*/
 		} catch (Throwable e) {
 			System.out.println("Error");
 		} finally{
