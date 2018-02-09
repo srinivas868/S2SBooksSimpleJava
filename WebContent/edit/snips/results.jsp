@@ -18,28 +18,28 @@
 								<form role="form">
 									<div class="form-group">
 										<div>
-											<label for="sel1">ISBN</label> <span
-												class="isbn-editable${status.count}"><fmt:formatNumber
-													value="${item.isbn}" type="NUMBER" pattern="#" /></span> 
+											<label for="sel1">ISBN</label> 
 											<input type="button" value="Edit"
 												class="btn btn-primary btn-xs btn_edit"
-												id="isbn-edit${status.count}"></input>
+												id="isbn-edit${status.count}"></input><br/>
+											<span class="isbn-editable${status.count}"><fmt:formatNumber
+													value="${item.isbn}" type="NUMBER" pattern="#" /></span>
 										</div>
 										<br />
 										<div>
-											<label for="sel1">Title</label> <span
-												class="title-editable${status.count}" class="editable1">${item.title}</span>
+											<label for="sel1">Title</label> 
 											<input type="button" value="Edit"
 												class="btn btn-primary btn-xs btn_edit"
-												id="title${status.count}"></input>
+												id="title${status.count}"></input><br/>
+											<span class="title-editable${status.count}" class="editable1">${item.title}</span>
 										</div>
 										<br />
 										<div>
-											<label for="sel1">1<sup>st</sup> Author</label> <span
-												class="author-editable${status.count}">${item.firstAuthor}</span>
+											<label for="sel1">1<sup>st</sup> Author</label> 
 											<input type="button" value="Edit"
 												class="btn btn-primary btn-xs btn_edit"
-												id="author${status.count}" ></input>
+												id="author${status.count}" ></input><br/>
+											<span class="author-editable${status.count}">${item.firstAuthor}</span>
 										</div>
 										<br />
 										<div>
@@ -60,11 +60,11 @@
 										</div>
 										<br />
 										<div>
-											<label for="sel1">Edition</label> <span
-												class="edition-editable${status.count}">${item.edition}</span>
+											<label for="sel1">Edition</label> 
 											<input type="button" value="Edit"
 												class="btn btn-primary btn-xs btn_edit"
-												id="edition${status.count}"></input>
+												id="edition${status.count}"></input><br/>
+											<span class="edition-editable${status.count}">${item.edition}</span>
 										</div>
 										<br />
 										<div>
@@ -130,11 +130,11 @@
 										</div>
 										<br />
 										<div>
-											<label for="sel1">Price</label> <span
-												class="price-editable${status.count}">${item.price}</span> <input
-												type="button" value="Edit"
+											<label for="sel1">Price</label> 
+											 <input type="button" value="Edit"
 												class="btn btn-primary btn-xs btn_edit"
-												id="price${status.count}"></input>
+												id="price${status.count}"></input><br/>
+											<span class="price-editable${status.count}">${item.price}</span>
 										</div>
 									</div>
 									<input type="hidden" value="${item.id}" id="id${status.count}" />
@@ -148,8 +148,8 @@
 				</div>
 			</c:forEach>
 			<c:if test="${count gt 0}">
-				<a href="javascript:saveBook()" class="btn btn-lg btn-success btn-block">Save and Submit</a>
-				<a href="javascript:cancelSaveBook()" class="btn btn-lg btn-success btn-block">Cancel</a><br/><br/><br/><br/>
+				<a href="javascript:cancelSaveBook()" class="btn btn-lg btn-success btn-block">Cancel</a>
+				<a href="javascript:saveBook()" class="btn btn-lg btn-success btn-block">Save and Submit</a><br/><br/><br/><br/>
 				<input type="hidden" value="${count}" id="count" />
 			</c:if>
 		</div>
