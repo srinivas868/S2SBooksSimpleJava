@@ -109,7 +109,7 @@ public class AccountManagerRestService {
 					if(getRequest() != null){
 						User user = (User) getRequest().getSession().getAttribute("user");
 						if(user != null){
-							User userItem = (User) getS2SBooksTools().getItem(User.class, user.getId());
+							User userItem = (User) getS2SBooksTools().getUserItem(user.getId(), true);
 							userItem.setTermsAgreed(true);
 							getS2SBooksTools().updateItem(userItem, true);
 							responseJson.put("code", "success");

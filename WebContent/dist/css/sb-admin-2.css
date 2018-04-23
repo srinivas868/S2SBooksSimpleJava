@@ -187,6 +187,17 @@ table.dataTable thead .sorting_desc_disabled {
 }
 
 /* Custom */
+@media (min-width: 992px) {
+  .modal-dialog {
+    width: 30%;
+  }
+}
+
+.modal-dialog{
+	top:30%;
+	width: 80%;
+	left:10%
+}
 .panel-default{
 	border-color:black;
 }

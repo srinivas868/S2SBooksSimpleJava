@@ -37,7 +37,7 @@
 
       var input = type === 'textarea' ? $('<textarea>') : $('<input>');
       input.val(old_value).
-        css('width', type === 'textarea' ? '100%' : 150 ).
+        css('width', type === 'textarea' ? '100%' : '100%' ).
         css('font-size','100%').
         css('margin',0).attr('id','editable_'+(new Date()*1)).
         addClass('editable');

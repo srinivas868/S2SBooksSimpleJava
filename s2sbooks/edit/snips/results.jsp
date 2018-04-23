@@ -18,30 +18,31 @@
 								<form role="form">
 									<div class="form-group">
 										<div>
-											<label for="sel1">ISBN</label> <span
-												class="isbn-editable${status.count}"><fmt:formatNumber
-													value="${item.isbn}" type="NUMBER" pattern="#" /></span> 
+											<label for="sel1">ISBN</label> 
 											<input type="button" value="Edit"
 												class="btn btn-primary btn-xs btn_edit"
-												id="isbn-edit${status.count}"></input>
+												id="isbn-edit${status.count}"></input><br/>
+											<span class="isbn-editable${status.count}"><fmt:formatNumber
+													value="${item.isbn}" type="NUMBER" pattern="#" /></span>
 										</div>
 										<br />
 										<div>
-											<label for="sel1">Title</label> <span
-												class="title-editable${status.count}" class="editable1">${item.title}</span>
+											<label for="sel1">Title</label> 
 											<input type="button" value="Edit"
 												class="btn btn-primary btn-xs btn_edit"
-												id="title${status.count}"></input>
+												id="title${status.count}"></input><br/>
+											<span class="title-editable${status.count}" class="editable1">${item.title}</span>
 										</div>
 										<br />
 										<div>
-											<label for="sel1">1<sup>st</sup> Author</label> <span
-												class="author-editable${status.count}">${item.firstAuthor}</span>
+											<label for="sel1">1<sup>st</sup> Author</label> 
 											<input type="button" value="Edit"
 												class="btn btn-primary btn-xs btn_edit"
-												id="author${status.count}" ></input>
+												id="author${status.count}" ></input><br/>
+											<span class="author-editable${status.count}">${item.firstAuthor}</span>
 										</div>
 										<br />
+										<input type="hidden" id="conditionName${status.count}" value="${item.condition}"/>
 										<div>
 											<label for="sel1">Condition</label> <select
 												class="form-control" style="width: 10%; display: initial;"
@@ -60,11 +61,11 @@
 										</div>
 										<br />
 										<div>
-											<label for="sel1">Edition</label> <span
-												class="edition-editable${status.count}">${item.edition}</span>
+											<label for="sel1">Edition</label> 
 											<input type="button" value="Edit"
 												class="btn btn-primary btn-xs btn_edit"
-												id="edition${status.count}"></input>
+												id="edition${status.count}"></input><br/>
+											<span class="edition-editable${status.count}">${item.edition}</span>
 										</div>
 										<br />
 										<div>
@@ -73,7 +74,7 @@
 												class="form-control department" style="width: 15%; display: initial;"
 												id="department${status.count}">
 												<c:choose>
-														<c:when test="${item.department eq ''}">
+														<c:when test="${item.department eq 'empty'}">
 															<option value="" disabled selected>-- Please Select --</option>
 														</c:when>
 														<c:otherwise>
@@ -130,11 +131,11 @@
 										</div>
 										<br />
 										<div>
-											<label for="sel1">Price</label> <span
-												class="price-editable${status.count}">${item.price}</span> <input
-												type="button" value="Edit"
+											<label for="sel1">Price</label> 
+											 <input type="button" value="Edit"
 												class="btn btn-primary btn-xs btn_edit"
-												id="price${status.count}"></input>
+												id="price${status.count}"></input><br/>
+											<span class="price-editable${status.count}">${item.price}</span>
 										</div>
 									</div>
 									<input type="hidden" value="${item.id}" id="id${status.count}" />
@@ -147,9 +148,11 @@
 					</div>
 				</div>
 			</c:forEach>
-			<a href="javascript:saveBook()" class="btn btn-lg btn-success btn-block">Save and Submit</a>
-			<a href="javascript:cancelSaveBook()" class="btn btn-lg btn-success btn-block">Cancel</a><br/><br/><br/><br/>
-			<input type="hidden" value="${count}" id="count" />
+			<c:if test="${count gt 0}">
+				<a href="javascript:cancelSaveBook()" class="btn btn-lg btn-success btn-block">Cancel</a>
+				<a href="javascript:saveBook()" class="btn btn-lg btn-success btn-block">Save and Submit</a><br/><br/><br/><br/>
+				<input type="hidden" value="${count}" id="count" />
+			</c:if>
 		</div>
 	</div>
 </div>
@@ -199,9 +202,10 @@
 			text : 'Other'
 		}));
 		var subjectName = $('#subjectName'+i).val();
+		var conditionName = $('#conditionName'+i).val();
 		if(subjectName == ''){
 			$('select#subject' + i).prepend($('<option>', {
-				value : '',
+				value : 'empty',
 				text : '-- Please Select --',
 				disabled : 'disabled',
 				selected : 'selected'
@@ -209,12 +213,13 @@
 		}
 		else{
 			$('select#subject' + i).prepend($('<option>', {
-				value : '',
+				value : 'empty',
 				text : '-- Please Select --',
 				disabled : 'disabled'
 			}));
 		}
 		$("select#subject"+i+" option[value='"+subjectName+"']").prop('selected','selected');
+		$("select#condition"+i+" option[value='"+conditionName+"']").prop('selected','selected');
 		$("select#department"+i).selectpicker({
 		    container: 'body'   
 		});

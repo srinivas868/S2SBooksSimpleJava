@@ -19,27 +19,41 @@
 							<thead>
 								<tr>
 									<th class="sorting">Status</th>
-									<th>ISBN</th>
-									<th>Title</th>
-									<th>1<sup>st</sup> Author</th>
-									<th>Edition</th>
+									<th>Price</th>
 									<th>Condition</th>
-									<th>Selling Price</th>
-									<th>Seller Email</th>
+									<th></th>
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach items="${bookInfoItems}" var="item">
+								<c:forEach items="${bookInfoItems}" var="item" varStatus="status">
 									<tr class="odd gradeX">
 										<td>${item.status}</td>
-										<td><fmt:formatNumber value = "${item.isbn}" type = "NUMBER" pattern="#" /></td>
-										<td>${item.title}</td>
-										<td>${item.firstAuthor}</td>
-										<td>${item.edition}</td>
-										<td>${item.condition}</td>
 										<td><fmt:formatNumber value = "${item.price}" type = "CURRENCY" /></td>
-										<td>${item.user.email}</td>
+										<td>${item.condition}</td>
+										<td><button class="btn btn-primary btn-xs" data-toggle="modal"
+											data-target="#modal${status.count}">Details</button></td>
 									</tr>
+									<div class="modal fade" id="modal${status.count}" tabindex="-1" role="dialog"
+										aria-labelledby="myModalLabel" aria-hidden="true">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal"
+														aria-hidden="true">&times;</button>
+													<h4 class="modal-title" id="myModalLabel">Details</h4>
+												</div>
+												<div class="modal-body">
+													<fmt:formatNumber value = "${item.isbn}" type = "NUMBER" pattern="#"/><br/>
+													${item.title}<br/>
+													${item.firstAuthor}<br/>
+													${item.edition}<br/>
+													${item.user.email}
+												</div>
+											</div>
+											<!-- /.modal-content -->
+										</div>
+										<!-- /.modal-dialog -->
+									</div>
 								</c:forEach>
 							</tbody>
 						</table>

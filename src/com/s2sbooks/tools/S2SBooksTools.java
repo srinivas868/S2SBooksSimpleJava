@@ -47,7 +47,6 @@ public class S2SBooksTools {
 			session = getSessionFactory().openSession();
 			if(session != null) {
 				tx = session.beginTransaction();
-				session.clear();
 				Query query = session.createQuery("FROM "+pItemType);
 				return (List) query.list();
 			}
@@ -118,6 +117,43 @@ public class S2SBooksTools {
 				Query query = session.createQuery("from BookSellingInfo b where b.isbn = :isbn");
 				query.setParameter("isbn", isbn);
 				return (List) query.list();
+			}
+			else {
+				return null;
+			}
+		} catch (Throwable e) {
+			throw new Exception(e);
+		} finally{
+			if(tx != null){
+				tx.commit();
+			}
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
+	
+	/** this method will return user item for given itemId
+	 * @param classType
+	 * @param pItemId
+	 * @param pCloseSession
+	 * @return
+	 * @throws Exception
+	 */
+	public Object getUserItem(int pItemId, boolean pCloseSession) throws Exception {
+		Session session = null;
+		Transaction tx = null;
+		try{
+			session = getSessionFactory().openSession();
+			if(session != null) {
+				tx = session.beginTransaction();
+				Query query = session.createQuery("from User b where b.id = :id");
+				query.setParameter("id", pItemId);
+				List list = query.list();
+				if(!list.isEmpty()) {
+					return list.get(0);
+				}
+				return null;
 			}
 			else {
 				return null;

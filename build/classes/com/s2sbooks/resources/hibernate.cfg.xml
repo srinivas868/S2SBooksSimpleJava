@@ -5,7 +5,7 @@
 
 <hibernate-configuration>
 	<session-factory>
-		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<!-- <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
 		<property name="hibernate.connection.url">jdbc:mysql://localhost:3308/s2sbooks?autoReconnect=true</property>
 		<property name="hibernate.connection.username">root</property>
 		<property name="hibernate.connection.password">root</property>
@@ -13,7 +13,15 @@
 		<property name="hbm2ddl.auto">update</property>
 		<property name="current_session_context_class">thread</property> 
 		<property name="show_sql">true</property>
-		<!-- <mapping class="com.s2sbooks.vo.User" /> -->
+		<property name="validationQuery">select 1</property> -->
+		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.username">postgres</property>
+        <property name="hibernate.connection.password">beta</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/s2sbooks</property>
+        <property name="connection_pool_size">1</property>
+        <property name="hbm2ddl.auto">update</property>
+        <property name="show_sql">true</property>
 		<mapping resource="com/s2sbooks/resources/hibernate.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>

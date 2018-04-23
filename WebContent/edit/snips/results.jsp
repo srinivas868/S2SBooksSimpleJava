@@ -42,6 +42,7 @@
 											<span class="author-editable${status.count}">${item.firstAuthor}</span>
 										</div>
 										<br />
+										<input type="hidden" id="conditionName${status.count}" value="${item.condition}"/>
 										<div>
 											<label for="sel1">Condition</label> <select
 												class="form-control" style="width: 10%; display: initial;"
@@ -201,6 +202,7 @@
 			text : 'Other'
 		}));
 		var subjectName = $('#subjectName'+i).val();
+		var conditionName = $('#conditionName'+i).val();
 		if(subjectName == ''){
 			$('select#subject' + i).prepend($('<option>', {
 				value : 'empty',
@@ -217,6 +219,7 @@
 			}));
 		}
 		$("select#subject"+i+" option[value='"+subjectName+"']").prop('selected','selected');
+		$("select#condition"+i+" option[value='"+conditionName+"']").prop('selected','selected');
 		$("select#department"+i).selectpicker({
 		    container: 'body'   
 		});

@@ -29,14 +29,14 @@
 											placeholder="Title of Book"> <br /> 
 											<label>1<sup>st</sup> Author </label> 
 										<input id="author" class="form-control" placeholder="Author">
-										<br /> <label>Edition</label> <input id="edition"
+										<br /> <label>Edition</label> 
+										<input id="edition"
 											class="form-control" placeholder="Edition"> <br /> <label
 											for="sel1">Condition</label> 
-											<select class="form-control" id="condition">
-											<option value="" disabled selected>-- Please select --</option>
-											<c:forEach items="${bookConditionItems}" var="item">
-												<option value="${item.title}">${item.title}</option>
-											</c:forEach>
+										<select class="form-control" id="condition">
+										<c:forEach items="${bookConditionItems}" var="item">
+											<option value="${item.title}">${item.title}</option>
+										</c:forEach>
 										</select> <br /> <label for="sel1">Status</label> <select
 											class="form-control" id="status">
 											<c:forEach items="${bookStatusItems}" var="item">

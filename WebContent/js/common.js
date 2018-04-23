@@ -340,7 +340,6 @@ $(document).ready(function(){
 	    disabled: 'disabled',
 	    selected: 'selected'
 	}));
-	
 	$("select.subject").html($("select.subject  option").sort(function (a, b) {
 	    if(!a.value) return;
 	    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1
@@ -350,6 +349,12 @@ $(document).ready(function(){
 	    text: 'Other'
 	}));
 	$('select.subject').prepend($('<option>', {
+	    value: 'empty',
+	    text: '-- Please Select --',
+	    disabled: 'disabled',
+	    selected: 'selected'
+	}));
+	$('select#condition').prepend($('<option>', {
 	    value: 'empty',
 	    text: '-- Please Select --',
 	    disabled: 'disabled',
