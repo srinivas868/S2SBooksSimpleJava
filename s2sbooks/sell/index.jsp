@@ -10,6 +10,7 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<h1 class="page-header">Sell Book</h1>
+				<p>Please fill all the required details about each book you want to sell</p>
 			</div>
 			<!-- /.col-lg-12 -->
 		</div>
@@ -20,25 +21,28 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-lg-6">
-								<form role="form">
+								<form id="sellForm" role="form" data-toggle="validator">
 									<div class="form-group">
-										<label>ISBN (13 digits without dashes)</label> <input
-											id="isbn" class="form-control" placeholder="ISBN"> <br />
-										<label>Title</label> 
-										<input id="title" class="form-control"
-											placeholder="Title of Book"> <br /> 
-											<label>1<sup>st</sup> Author </label> 
-										<input id="author" class="form-control" placeholder="Author">
-										<br /> <label>Edition</label> 
-										<input id="edition"
-											class="form-control" placeholder="Edition"> <br /> <label
-											for="sel1">Condition</label> 
-										<select class="form-control" id="condition">
-										<c:forEach items="${bookConditionItems}" var="item">
-											<option value="${item.title}">${item.title}</option>
-										</c:forEach>
-										</select> <br /> <label for="sel1">Status</label> <select
-											class="form-control" id="status">
+										<label class="control-label-required">ISBN (13 digits without dashes)</label> 
+										<input id="isbn" name="isbn" type="number" class="form-control" placeholder="ISBN"
+											data-error="Error" required> <br /> <label class="control-label-required">Title</label>
+										<input id="title" name="title" class="form-control"
+											placeholder="Title of Book" required> <br /> 
+											<label class="control-label-required">1<sup>st</sup>
+											Author
+										</label> 
+										<input id="author" class="form-control" placeholder="Author"
+											required> <br /> <label class="control-label-required">Edition</label> <input
+											id="edition" name="edition" class="form-control"
+											placeholder="Edition" required> <br /> 
+											<label for="sel1" class="control-label-required">Condition</label> <select name="condition"
+											class="form-control" id="condition" required>
+											<c:forEach items="${bookConditionItems}" var="item">
+												<option value="${item.title}">${item.title} &nbsp;:&nbsp; ${item.description}</option>
+											</c:forEach>
+										</select> <br /> 
+										<label for="sel1" class="control-label-required">Status</label> <select
+											name="status" class="form-control" id="status" required>
 											<c:forEach items="${bookStatusItems}" var="item">
 												<c:choose>
 													<c:when test="${item.title eq 'Sold'}">
@@ -49,8 +53,8 @@
 													</c:otherwise>
 												</c:choose>
 											</c:forEach>
-										</select> <br /> 
-										<label for="sel1">Department</label> 
+										</select> <br />
+										<%-- <label for="sel1">Department</label> 
 										<select class="form-control department" id="department">
 											<c:forEach items="${departmentItems}" var="item" varStatus="status">
 												<option value="${item.title}">${item.title}</option>
@@ -61,14 +65,18 @@
 											<c:forEach items="${departmentItems[0].subjects}" var="item">
 												<option value="${item.title}" style="display: none;">${item.title}</option>
 											</c:forEach>
-										</select> <br /> 
-										<label>Selling Price</label> <input id="price"
-											class="form-control" placeholder="Selling Price">
+										</select> <br />  --%>
+										<label class="control-label-required">Selling Price</label> 
+										<input id="price" type="number" class="form-control" placeholder="Selling Price" data-error="Error" required>
 									</div>
 									<a href="javascript:sellAndAddBook()"
 										class="btn btn-lg btn-success btn-block">Submit and Add
 										Another Book</a> <a href="javascript:sellBook()"
 										class="btn btn-lg btn-success btn-block">Submit</a>
+									<div class="form-group">
+										<button id="sellSubmit" type="submit" class="btn btn-primary"
+											style="display: none;">Submit</button>
+									</div>
 								</form>
 							</div>
 							<!-- /.col-lg-6 (nested) -->

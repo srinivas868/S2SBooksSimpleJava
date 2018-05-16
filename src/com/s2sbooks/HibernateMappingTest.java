@@ -23,10 +23,10 @@ public class HibernateMappingTest {
 	    Session session = null;  
 	    try{
 	    	session = sf.openSession();
-	    	/*Query query = session.createQuery("From Department");
+	    	Query query = session.createQuery("From User");
 		    query.setCacheable(true);
 		    List<Department> dList = query.list();
-		    query = session.createQuery("From Subject");
+		    /*query = session.createQuery("From Subject");
 		    List<Subject> sList = query.list(); 
 		    Department dept = dList.get(0);
 		    dept.setSubjects(sList);

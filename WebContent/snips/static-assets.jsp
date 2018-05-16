@@ -23,6 +23,7 @@
 <script src="http://malsup.github.com/jquery.form.js"></script>
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" type="text/javascript"></script>
 <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
+<script src="http://formvalidation.io/vendor/formvalidation/js/formValidation.min.js"></script>
 <script type="text/javascript" src="/s2sbooks/js/common.js"></script>
 
 <!-- editable -->

@@ -1,6 +1,9 @@
 package com.s2sbooks.account.rest;
 
 import javax.ws.rs.Produces;
+
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -14,6 +17,7 @@ import org.json.JSONObject;
 
 import com.s2sbooks.account.util.PasswordUtil;
 import com.s2sbooks.tools.S2SBooksTools;
+import com.s2sbooks.vo.AuditTrail;
 import com.s2sbooks.vo.BookSellingInfo;
 import com.s2sbooks.vo.User;
 
@@ -40,6 +44,10 @@ public class AccountManagerRestService {
 				responseJson.put("message", "Passwords didn't match");
 			}
 			else {
+				if(checkUserExists(email)) {
+					responseJson.put("message", "User with same email exists!");
+					throw new Exception();
+				}
 				User user = new User(firstName, lastName, email, password);
 				getS2SBooksTools().addItem(user);
 				responseJson.put("code", "success");
@@ -52,6 +60,14 @@ public class AccountManagerRestService {
 		return responseJson.toString();
 	}
 	
+	private boolean checkUserExists(String email) throws Exception {
+		User user = getS2SBooksTools().getUserByEmail(email);
+		if(user != null) {
+			return true;
+		}
+		return false;
+	}
+
 	@GET
 	@Path("/login")
     @Produces(MediaType.APPLICATION_JSON)
@@ -66,12 +82,12 @@ public class AccountManagerRestService {
 				responseJson.put("code", "error");
 				responseJson.put("message", "Your email or password did not match");
 			} else {
-				if(user.isTermsAgreed()) {
-					responseJson.put("termsAgreed", "true");
-				}
+				responseJson.put("termsAgreed", user.isTermsAgreed()?"true":"false");
+				responseJson.put("surveyAnswered", user.isSurveyAnswered()?"true":"false");
 				responseJson.put("code", "success");
 				System.out.println("Login successfull "+user.getEmail());
 				getRequest().getSession().setAttribute("user", user);
+				updateLoginInfo(user);
 			}
 		} catch (Exception e) {
 			Log.error("Exeception while checking login : "+e.getMessage());
@@ -80,6 +96,11 @@ public class AccountManagerRestService {
 		return responseJson.toString();
 	}
 	
+	public void updateLoginInfo(User user) throws Exception {
+		AuditTrail trail = new AuditTrail(user, new Date());
+		getS2SBooksTools().addItem(trail);
+	}
+
 	@GET
 	@Path("/logout")
     @Produces(MediaType.APPLICATION_JSON)

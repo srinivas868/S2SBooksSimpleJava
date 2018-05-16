@@ -10,6 +10,7 @@
           <div class="row">
               <div class="col-lg-12">
                   <h1 class="page-header">Buy Book</h1>
+                  <p>Please enter the 13 digit ISBN of the book you wish to buy</p>
               </div>
               <!-- /.col-lg-12 -->
           </div>
@@ -20,7 +21,7 @@
                       <div class="panel-body">
                           <div class="row">
                               <div class="col-lg-6">
-                                  <form role="form">
+                                  <form role="form" id="buyForm" data-toggle="validator">
                                       <div class="form-group">
 										<%-- <label for="sel1">Department</label>
 										  <select class="form-control department" id="department">
@@ -36,9 +37,13 @@
 										    </c:forEach>
 										  </select>
 										  <br/> --%>
-                                         <label>ISBN (13 digits without dashes)</label>
-                                         <input id="isbn" class="form-control" placeholder="Search ...">
+                                         <label class="control-label-required">ISBN (13 digits without dashes)</label>
+                                         <input type="number" id="isbn" class="form-control" placeholder="Search ..." required>
                                       </div>
+                                      <!-- <div class="form-group">
+										<button id="buySubmit" type="submit" class="btn btn-primary"
+											style="display: none;">Submit</button>
+									</div> -->
                                       <a href="javascript:searchBook()" class="btn btn-lg btn-success btn-block">Search Book</a>
                                   </form>
                               </div>

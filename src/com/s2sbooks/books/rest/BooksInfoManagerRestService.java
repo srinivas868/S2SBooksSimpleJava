@@ -2,6 +2,7 @@ package com.s2sbooks.books.rest;
 
 import javax.ws.rs.Produces;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.s2sbooks.tools.S2SBooksTools;
+import com.s2sbooks.vo.AuditTrail;
 import com.s2sbooks.vo.BookSellingInfo;
 import com.s2sbooks.vo.User;
 import com.s2sbooks.vo.enumtypes.BookStatus;
@@ -40,13 +42,14 @@ public class BooksInfoManagerRestService {
 			String edition = parameters[3];
 			String condition = parameters[4];
 			String status = BookStatus.Available.toString();
-			String department = checkEmpty(parameters[6]);
-			String subject = checkEmpty(parameters[7]);
-			double price = Double.valueOf(parameters[8]);
+			//String department = checkEmpty(parameters[6]);
+			//String subject = checkEmpty(parameters[7]);
+			double price = Double.valueOf(parameters[6]);
 			User user = S2SBooksTools.getCurrentUser(getRequest());
 			BookSellingInfo bsInfo = new BookSellingInfo(isbn, title, author, edition, condition,
-															status, department, subject, price, user);
+															status, price, user);
 			getS2SBooksTools().addItem(bsInfo);
+			updateAuditTrailInfo(user,isbn);
 			responseJson.put("code", "success");
 		} catch (Exception e) {
 			Log.error("Error while adding item to database : "+e);
@@ -55,6 +58,16 @@ public class BooksInfoManagerRestService {
 		return responseJson.toString();
 	}
 	
+	public void updateAuditTrailInfo(User user, double isbn) throws Exception {
+		List<AuditTrail> auditTrails = getS2SBooksTools().getAuditTrailItems(AuditTrail.class, user);
+		if(auditTrails != null && auditTrails.size() >0) {
+			Collections.sort(auditTrails);
+			AuditTrail itemToUpdate = auditTrails.get(auditTrails.size()-1);
+			itemToUpdate.setIsbn(isbn);
+			getS2SBooksTools().updateItem(itemToUpdate, true);
+		}
+	}
+
 	@GET
 	@Path("/search")
     @Produces(MediaType.APPLICATION_JSON)
@@ -120,13 +133,13 @@ public class BooksInfoManagerRestService {
 			String edition = parameters[3];
 			String condition = parameters[4];
 			String status = parameters[5];
-			String department = checkEmpty(parameters[6]);
-			String subject = checkEmpty(parameters[7]);
-			double price = Double.valueOf(parameters[8]);
-			int id = Integer.valueOf(parameters[9]);
+			//String department = checkEmpty(parameters[6]);
+			//String subject = checkEmpty(parameters[7]);
+			double price = Double.valueOf(parameters[6]);
+			int id = Integer.valueOf(parameters[7]);
 			BookSellingInfo bsInfo = (BookSellingInfo) getS2SBooksTools().getItem(BookSellingInfo.class, id);
 			bsInfo.updateAll(isbn, title, author, edition, condition,
-								status, department, subject, price);
+								status, price);
 			getS2SBooksTools().updateItem(bsInfo, true);
 			responseJson.put("code", "success");
 		} catch (Exception e) {

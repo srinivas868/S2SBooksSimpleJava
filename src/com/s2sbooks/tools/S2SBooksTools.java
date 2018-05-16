@@ -11,6 +11,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import com.s2sbooks.vo.AuditTrail;
 import com.s2sbooks.vo.BookSellingInfo;
 import com.s2sbooks.vo.User;
 
@@ -49,6 +50,42 @@ public class S2SBooksTools {
 				tx = session.beginTransaction();
 				Query query = session.createQuery("FROM "+pItemType);
 				return (List) query.list();
+			}
+			else {
+				return null;
+			}
+		} catch (Throwable e) {
+			throw new Exception(e);
+		} finally{
+			if(tx != null) {
+				tx.commit();
+			}
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
+	
+	/** this method will return items for itemType
+	 * @param pItemType
+	 * @param pCloseSession
+	 * @return
+	 * @throws Exception
+	 */
+	public User getUserByEmail(String email) throws Exception {
+		Session session = null;
+		Transaction tx = null;
+		try{
+			session = getSessionFactory().openSession();
+			if(session != null) {
+				tx = session.beginTransaction();
+				Query query = session.createQuery("FROM User u where u.email =:email");
+				query.setParameter("email", email);
+				List list = query.list();
+				if(list != null && list.size() >0) {
+					return (User)list.get(0);
+				}
+				return null;
 			}
 			else {
 				return null;
@@ -154,6 +191,46 @@ public class S2SBooksTools {
 					return list.get(0);
 				}
 				return null;
+			}
+			else {
+				return null;
+			}
+		} catch (Throwable e) {
+			throw new Exception(e);
+		} finally{
+			if(tx != null){
+				tx.commit();
+			}
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
+	
+	/** this method will return user item with first
+	 * @param classType
+	 * @param user
+	 * @return
+	 * @throws Exception
+	 */
+	public User searchUserItem(Class<User> classType, String firstName, String lastName, String email) throws Exception {
+		Session session = null;
+		Transaction tx = null;
+		try{
+			session = getSessionFactory().openSession();
+			if(session != null) {
+				tx = session.beginTransaction();
+				Query query = session.createQuery("from User u where u.firstName = :firstName and u.lastName = :lastName and u.email = :email");
+				query.setParameter("firstName", firstName);
+				query.setParameter("lastName", lastName);
+				query.setParameter("email", email);
+				List list = query.list();
+				if(list != null && list.size() >0) {
+					return (User) list.get(0);
+				}
+				else {
+					return null;
+				}
 			}
 			else {
 				return null;
@@ -316,6 +393,39 @@ public class S2SBooksTools {
 				return null;
 			}
 			
+		} catch (Throwable e) {
+			throw new Exception(e);
+		} finally{
+			if(tx != null){
+				tx.commit();
+			}
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
+	
+	/** this method will return audit trail items for given user
+	 * @param classType
+	 * @param pItemId
+	 * @param pCloseSession
+	 * @return
+	 * @throws Exception
+	 */
+	public List getAuditTrailItems(Class<AuditTrail> classType, User user) throws Exception {
+		Session session = null;
+		Transaction tx = null;
+		try{
+			session = getSessionFactory().openSession();
+			if(session != null) {
+				tx = session.beginTransaction();
+				Query query = session.createQuery("from AuditTrail a where a.user = :user");
+				query.setParameter("user", user);
+				return (List) query.list();
+			}
+			else {
+				return null;
+			}
 		} catch (Throwable e) {
 			throw new Exception(e);
 		} finally{

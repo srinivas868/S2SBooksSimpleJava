@@ -11,35 +11,35 @@ public class BookSellingInfo {
 	private String condition;
 	private double price;
 	private User user;
-	private String department;
-	private String subject;
+	//private String department;
+	//private String subject;
 	
 	public BookSellingInfo() {}
 	
 	public BookSellingInfo(double isbn, String title, String author, String edition, String condition,  
-			String status, String department, String subject, double price, User user) {
+			String status, double price, User user) {
 		this.isbn = isbn;
 		this.title = title;
 		this.firstAuthor = author;
 		this.edition = edition;
 		this.condition = condition;
 		this.status = status;
-		this.department = department;
-		this.subject = subject;
+		//this.department = department;
+		//this.subject = subject;
 		this.price = price;
 		this.user = user;
 	}
 	
 	public void updateAll(double isbn, String title, String author, String edition, String condition,  
-			String status, String department, String subject, double price) {
+			String status, double price) {
 		this.isbn = isbn;
 		this.title = title;
 		this.firstAuthor = author;
 		this.edition = edition;
 		this.condition = condition;
 		this.status = status;
-		this.department = department;
-		this.subject = subject;
+		//this.department = department;
+		//this.subject = subject;
 		this.price = price;
 	}
 
@@ -98,7 +98,7 @@ public class BookSellingInfo {
 		this.user = user;
 	}
 
-	public String getDepartment() {
+	/*public String getDepartment() {
 		return department;
 	}
 
@@ -112,5 +112,5 @@ public class BookSellingInfo {
 
 	public void setSubject(String subject) {
 		this.subject = subject;
-	}
+	}*/
 }

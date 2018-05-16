@@ -1,43 +1,134 @@
 function validateSignUpFields(){
-	if($('#firstName').val() == '')
-		return false;
-	if($('#lastName').val() == '')
-		return false;
-	if($('#email').val() == '')
-		return false;
-	if($('#password').val() == '')
-		return false;
-	if($('#retypePassword').val() == '')
-		return false;
-	return true;
+	var valid = true;
+	$('#signupSubmit').click();
+	$('#signupForm').submit(function(e) {
+	    e.preventDefault();
+	});
+	$('#signupForm input').each(function() {
+	    if ( $(this).val() === '' ) {
+	    	valid = false;
+	    }
+	  });
+	return valid;
 }
 
 function validateLoginFields(){
-	if($('#firstName').val() == '')
-		return false;
-	if($('#lastName').val() == '')
-		return false;
-	return true;
+	var valid = true;
+	$('#loginSubmit').click();
+	$('#loginForm').submit(function(e) {
+	    e.preventDefault();
+	});
+	$('#loginForm input').each(function() {
+	    if ( $(this).val() === '' ) {
+	    	valid = false;
+	    }
+	  });
+	return valid;
 }
 
+function checkIsbnNumber(isbn){
+	var valid = false;
+	if(isbn != ''){
+		if(isbn.length === 13){
+			valid = true;
+		}
+		else{
+			alert("Please enter 13 digit isbn number");
+		}
+	}
+	return valid;
+}
 function validateSellBookFields(){
-	if($('#isbn').val() == '')
-		return false;
-	if($('#condition').find(":selected").val() == '')
-		return false;
-	if($('#price').val() == '')
-		return false;
-	return true;
+	var valid = true;
+	var isbn = $('#isbn').val();
+	$('#sellSubmit').click();
+	$('#sellForm').submit(function(e) {
+	    e.preventDefault();
+	});
+	if(isbn != '')
+		valid = checkIsbnNumber(isbn);
+	$('#sellForm input').each(function() {
+	    if ( $(this).val() === '' ) {
+	    	valid = false;
+	    }
+	  });
+	return valid;
 }
 
 function validateSearchBookFields(){
-	/*if($('#department').find(":selected").text() == '')
-		return false;
-	if($('#subject').find(":selected").text() == '')
-		return false;*/
-	if($('#isbn').val() == '')
-		return false;
-	return true;
+	var valid = true;
+	/*$('#buySubmit').click();
+	$('#buyForm').submit(function(e) {
+	    e.preventDefault();
+	});
+	$('#buyForm input').each(function() {
+	    if ( $(this).val() === '' ) {
+	    	valid = false;
+	    }
+	  });*/
+	valid = checkIsbnNumber($('#isbn').val());
+	return valid;
+}
+
+function validateReportFields(){
+	var valid = true;
+	$('#reportSubmit').click();
+	$('#reportForm').submit(function(e) {
+	    e.preventDefault();
+	});
+	$('#reportSubmit input').each(function() {
+	    if ( $(this).val() === '' ) {
+	    	valid = false;
+	    }
+	  });
+	return valid;
+}
+
+function validateSurveyFields(){
+	var valid = true;
+	$('#surveySubmit').click();
+	$('#surveyForm').submit(function(e) {
+	    e.preventDefault();
+	});
+	if($('input[name=question1]:checked', '#surveyForm').val() === undefined)
+		valid = false;
+	if($('input[name=question2]:checked', '#surveyForm').val() === undefined)
+		valid = false;
+	if($('input[name=question3]:checked', '#surveyForm').val() === undefined)
+		valid = false;
+	if($('input[name=question4]:checked', '#surveyForm').val() === undefined)
+		valid = false;
+	return valid;
+}
+
+function submitSurveyForm(){
+	var status = false;validateSurveyFields
+	if(validateSurveyFields()){
+		var input = $('input[name=question1]:checked', '#surveyForm').val()+"&"+$('input[name=question2]:checked', '#surveyForm').val()+"&"
+					+$('input[name=question3]:checked', '#surveyForm').val()+"&"+$('input[name=question4]:checked', '#surveyForm').val();
+		if($('#question5').val() === ' ' || $('#question5').val() === '')
+			input+="&-";
+		else
+			input+="&"+$('#question5').val();
+		$.ajax({
+			url : '/s2sbooks/survey/rest/surveyInfoManager/write',
+			type : 'GET',
+			data: input,
+			async : false,
+			datatype : "application/json",
+			contentType: "application/json; charset=utf-8",
+			success : function(data) {
+				if(data.code == 'success'){
+					alert("Your response has been recorded");
+					status = true;
+				} else{
+					alert(data.message);
+					window.location.href="/s2sbooks/survey/";
+				}
+			}
+		});
+	}
+	return status;
 }
 
 function submitSellForm(){
@@ -45,7 +136,6 @@ function submitSellForm(){
 	if(validateSellBookFields()){
 		var input = $('#isbn').val()+"&"+$('#title').val()+"&"+$('#author').val()+"&"+$('#edition').val()+"&"
 					+$('#condition').find(":selected").val()+"&"+$('#status').find(":selected").val()+"&"
-					+$('#department').find(":selected").val()+"&"+$('#subject').find(":selected").val()+"&"
 					+$('#price').val();
 		$.ajax({
 			url : '/s2sbooks/sell/rest/booksInfoManager/sell',
@@ -60,12 +150,10 @@ function submitSellForm(){
 					status = true;
 				} else{
 					alert(data.message);
+					window.location.href="/s2sbooks/sell/";
 				}
 			}
 		});
-	}
-	else{
-		alert("Please enter all fields");
 	}
 	return status;
 }
@@ -79,6 +167,12 @@ function sellBook(){
 function sellAndAddBook(){
 	if(submitSellForm()){
 		window.location.href = "/s2sbooks/sell/";
+	}
+}
+
+function survey(){
+	if(submitSurveyForm()){
+		window.location.href = "/s2sbooks/";
 	}
 }
 
@@ -104,14 +198,15 @@ function searchBook(){
 		});
 	}
 	else{
-		alert("Please enter all fields");
+		//alert("Please enter all fields");
 	}
 	return status;
 }
 
 function searchBookWithEdit(){
 	var status = false;
-	if($('#isbn').val() != ''){
+	var valid = checkIsbnNumber($('#isbn').val());
+	if(valid){
 		var input = $('#isbn').val();
 		$.ajax({
 			url : '/s2sbooks/sell/rest/booksInfoManager/searchwithedit',
@@ -130,7 +225,33 @@ function searchBookWithEdit(){
 		});
 	}
 	else{
-		alert("Please enter all fields");
+		//alert("Please enter all fields");
+	}
+	return status;
+}
+
+function report(){
+	var status = false;
+	if(validateReportFields()){
+		var input = $('#firstName').val()+"&"+$('#lastName').val()+"&"+$('#email').val();
+		$.ajax({
+			url : '/s2sbooks/report/rest/auditTrailInfoManager/search',
+			type : 'GET',
+			data: input,
+			async : false,
+			datatype : "application/json",
+			contentType: "application/json; charset=utf-8",
+			success : function(data) {
+				if(data.code == 'success'){
+					$("#results").load("/s2sbooks/report/snips/results.jsp" );
+				} else{
+					alert(data.message);
+				}
+			}
+		});
+	}
+	else{
+		//alert("Please enter all fields");
 	}
 	return status;
 }
@@ -151,12 +272,13 @@ function createUser(){
 					window.location.href = "/s2sbooks/account/agreement/";
 				} else{
 					alert(data.message);
+					window.location.href = "/s2sbooks/account/signup.jsp";
 				}
 			}
 		});
 	}
 	else{
-		alert("Please enter all fields");
+		//alert("Please enter all fields");
 	}
 	return false;
 }
@@ -173,21 +295,25 @@ function login(){
 	        contentType: "application/json; charset=utf-8",
 	        success : function(data) {
 	        	if(data.code == 'success'){
-	        		if(data.termsAgreed == 'true'){
+	        		if(data.termsAgreed == 'true' && data.surveyAnswered == 'true'){
 	        			alert("Login Successful");
 		        		window.location.href = "/s2sbooks/";
 	        		}
-	        		else{
+	        		else if(data.termsAgreed == 'false' && data.surveyAnswered == 'false'){
 		        		window.location.href = "/s2sbooks/account/agreement/";
+	        		}
+	        		else if(data.termsAgreed == 'true' && data.surveyAnswered == 'false'){
+		        		window.location.href = "/s2sbooks/survey/";
 	        		}
 	        	} else{
 	        		alert(data.message);
+	        		window.location.href = "/s2sbooks/account/";
 	        	}
 	        }
 		});
 	}
 	else{
-		alert("Please enter all fields");
+		//alert("Please enter all fields");
 	}
 	return false;
 }
@@ -288,7 +414,6 @@ function saveBook(){
 		var input = $('.isbn-editable'+i).text()+"&"+$('.title-editable'+i).text()+"&"+$('.author-editable'+i).text()
 					+"&"+$('.edition-editable'+i).text()+"&"
 					+$('#condition'+i).find(":selected").val()+"&"+$('#status'+i).find(":selected").val()+"&"
-					+$('#department'+i).find(":selected").val()+"&"+$('#subject'+i).find(":selected").val()+"&"
 					+$('.price-editable'+i).text()+"&"+$('#id'+i).val();
 		$.ajax({
 		url : '/s2sbooks/sell/rest/booksInfoManager/update',
@@ -323,7 +448,7 @@ function InputCustomerDetailItem(param1, param2) {
 }
 
 $(document).ready(function(){
-	$('select.department').change(function(){
+	/*$('select.department').change(function(){
 		var selected = $('select.department').find(":selected").text();
 		if(selected == 'Business'){
 			$("select.subject option").show();
@@ -353,11 +478,71 @@ $(document).ready(function(){
 	    text: '-- Please Select --',
 	    disabled: 'disabled',
 	    selected: 'selected'
-	}));
+	}));*/
 	$('select#condition').prepend($('<option>', {
 	    value: 'empty',
 	    text: '-- Please Select --',
 	    disabled: 'disabled',
 	    selected: 'selected'
 	}));
+	$('#loginForm input').on('keypress',function(e){
+	    if(e.keyCode == 13)
+	    {
+	        $('#submit').click();
+	        $('#loginForm').submit(function(e) {
+	    	    e.preventDefault();
+	    	});
+	        login();
+	    }
+	});
+	$('#signupForm input').on('keypress',function(e){
+	    if(e.keyCode == 13)
+	    {
+	        $('#signupSubmit').click();
+	        $('#signupForm').submit(function(e) {
+	    	    e.preventDefault();
+	    	});
+	        createUser();
+	    }
+	});
+	$('#buyForm input').on('keypress',function(e){
+	    if(e.keyCode == 13)
+	    {
+	        $('#buySubmit').click();
+	        $('#buyForm').submit(function(e) {
+	    	    e.preventDefault();
+	    	});
+	        searchBook();
+	    }
+	});
+	$('#sellForm input').on('keypress',function(e){
+	    if(e.keyCode == 13)
+	    {
+	        $('#sellSubmit').click();
+	        $('#sellForm').submit(function(e) {
+	    	    e.preventDefault();
+	    	});
+	        sellBook();
+	    }
+	});
+	$('#editForm input').on('keypress',function(e){
+	    if(e.keyCode == 13)
+	    {
+	        $('#editSubmit').click();
+	        $('#editForm').submit(function(e) {
+	    	    e.preventDefault();
+	    	});
+	        searchBookWithEdit();
+	    }
+	});
+	$('#reportForm input').on('keypress',function(e){
+	    if(e.keyCode == 13)
+	    {
+	        $('#reportSubmit').click();
+	        $('#reportForm').submit(function(e) {
+	    	    e.preventDefault();
+	    	});
+	        report();
+	    }
+	});
 });

@@ -8,3 +8,6 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="/s2sbooks/dist/js/sb-admin-2.js"></script>
+    <div style="margin: 0 0 0 0px;text-align: center;">
+    	<p>Copyright © 2018 Business Operations and Analytics Lab (BOAL) at Wichita State University.1845 Fairmount St. Wichita, Kansas 67260 |</p>
+    </div>

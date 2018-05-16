@@ -162,6 +162,14 @@
 		                        </li>
 		                        <li><a href="/s2sbooks/edit/"><i class="fa fa-edit"></i> Edit Book</a>
 		                        </li>
+		                        <c:if test="${user.email eq 'sue.abdinnour@wichita.edu' }">
+		                        	<li><a href="/s2sbooks/report/"><i class="fa fa-edit"></i>View All Users</a>
+			                        </li>
+			                        <li><a href="/s2sbooks/report/search.jsp"><i class="fa fa-edit"></i>Audit Report</a>
+			                        </li>
+			                        <li><a href="/s2sbooks/report/survey.jsp"><i class="fa fa-edit"></i>Survey Report</a>
+			                        </li>
+		                        </c:if>
 		                        <li><a href="javascript:logout();"><i class="fa fa-sign-out"></i> Logout</a>
 		                        </li>
                         	</c:otherwise>

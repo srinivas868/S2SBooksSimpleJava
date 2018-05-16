@@ -45,15 +45,15 @@
 										<input type="hidden" id="conditionName${status.count}" value="${item.condition}"/>
 										<div>
 											<label for="sel1">Condition</label> <select
-												class="form-control" style="width: 10%; display: initial;"
+												class="form-control" style="display: initial;"
 												id="condition${status.count}">
 												<c:forEach items="${bookConditionItems}" var="cItem">
 													<c:choose>
 														<c:when test="${cItem.title eq item.condition}">
-															<option value="${cItem.title}" selected="selected">${cItem.title}</option>
+															<option value="${cItem.title}" selected="selected">${cItem.title} &nbsp;:&nbsp; ${cItem.description}</option>
 														</c:when>
 														<c:otherwise>
-															<option value="${cItem.title}">${cItem.title}</option>
+															<option value="${cItem.title}">${cItem.title} &nbsp;:&nbsp; ${cItem.description}</option>
 														</c:otherwise>
 													</c:choose>
 												</c:forEach>
@@ -67,8 +67,8 @@
 												id="edition${status.count}"></input><br/>
 											<span class="edition-editable${status.count}">${item.edition}</span>
 										</div>
-										<br />
-										<div>
+										<%--<br />
+										 <div>
 											<label for="sel1">Department</label> 
 											<select
 												class="form-control department" style="width: 15%; display: initial;"
@@ -111,11 +111,11 @@
 													</c:choose>
 												</c:forEach>
 											</select> <br />
-										</div>
+										</div> --%>
 										<br />
 										<div>
 											<label for="sel1">Status</label> <select
-												class="form-control" style="width: 15%; display: initial;"
+												class="form-control" style="display: initial;"
 												id="status${status.count}">
 												<c:forEach items="${bookStatusItems}" var="stItem">
 													<c:choose>
@@ -189,7 +189,7 @@
 			value : '',
 			text : '-- Please Select --',
 			disabled : 'disabled'
-		})); */
+		})); 
 
 		$("select#subject" + i).html(
 				$("select#subject" + i + "  option").sort(function(a, b) {
@@ -200,10 +200,10 @@
 		$('select#subject' + i).append($('<option>', {
 			value : 'Other',
 			text : 'Other'
-		}));
-		var subjectName = $('#subjectName'+i).val();
+		})); 
+		var subjectName = $('#subjectName'+i).val();*/
 		var conditionName = $('#conditionName'+i).val();
-		if(subjectName == ''){
+		/* if(subjectName == ''){
 			$('select#subject' + i).prepend($('<option>', {
 				value : 'empty',
 				text : '-- Please Select --',
@@ -219,14 +219,14 @@
 			}));
 		}
 		$("select#subject"+i+" option[value='"+subjectName+"']").prop('selected','selected');
-		$("select#condition"+i+" option[value='"+conditionName+"']").prop('selected','selected');
 		$("select#department"+i).selectpicker({
 		    container: 'body'   
-		});
+		}); */
+		$("select#condition"+i+" option[value='"+conditionName+"']").prop('selected','selected');
 
-		if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+		/* if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
 		    $("select#department"+i).selectpicker('mobile');
-		}
+		} */
 		$("select#condition"+i).selectpicker({
 		    container: 'body'   
 		});
@@ -234,13 +234,13 @@
 		if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
 		    $("select#condition"+i).selectpicker('mobile');
 		}
-		$("select#subject"+i).selectpicker({
+		/* $("select#subject"+i).selectpicker({
 		    container: 'body'   
 		});
 
 		if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
 		    $("select#subject"+i).selectpicker('mobile');
-		}
+		} */
 		$("select#status"+i).selectpicker({
 		    container: 'body'   
 		});
@@ -249,18 +249,5 @@
 		    $("select#status"+i).selectpicker('mobile');
 		}
 	}
-	
-	/* $('select.department').change(function() {
-		$('select.department').each(function() {
-			var selected = $(this).find(":selected").text();
-			console.log("DD" + selected);
-			if (selected == 'Business') {
-				$(this).closest('select.subject option').show();
-			} else {
-				$(this).closest('select.subject option').hide();
-				$(this).closest("select.subject option[value='Other']").show();
-				$(this).closest("select.subject option[value='']").show();
-			}
-		});
-	}); */
+	 
 </script>

@@ -14,9 +14,13 @@
                             <!-- Tab panes -->
                             <div class="tab-content">
                                 <div class="tab-pane fade in active" id="home-pills">
-                                    <p>Currently, this website is only available for business textbooks and 
-                                    	only if you live in Wichita, Kansas. If this pilot works, we may expand this to
-                                    	other topics and other places.</p>
+                                    <p>To use this website, you must have the <b>13 digit ISBN of the book.</b>
+                                    If you want to sell a book, click on <b>SELL</b> and enter the details of the book you are selling. 
+                                    You can click on <b>EDIT</b> after that to edit the details of any of the books you are selling. 
+                                    Buyers will contact you to ask about the book using the email you post in the details. 
+                                    After you sell a book, please go to <b>EDIT</b> and <b>change the status of the book to Sold.</b> 
+                                    If you want to buy a book, click on <b>BUY</b> and enter the ISBN of the book. 
+                                    You will find the different sellers and their email addresses and can contact them directly. </p>
                                 </div>
                             </div>
                         </div>
@@ -46,7 +50,8 @@
               <!-- /.col-lg-12 -->
           </div>
           <!-- /.row -->
+          <jsp:include page="/snips/footer.jsp" />
       </div>
 </body>
-<jsp:include page="/snips/footer.jsp" />
+
 </html>

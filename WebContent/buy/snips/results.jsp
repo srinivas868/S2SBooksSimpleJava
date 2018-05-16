@@ -3,6 +3,8 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<h1 class="page-header">Results</h1>
+			<p>You can sort by any of the headers (Price,Condition etc.). 
+			Once you find the book you like, and it is available, contact the seller for further steps.</p>
 		</div>
 		<!-- /.col-lg-12 -->
 	</div>
@@ -35,7 +37,7 @@
 									</tr>
 									<div class="modal fade" id="modal${status.count}" tabindex="-1" role="dialog"
 										aria-labelledby="myModalLabel" aria-hidden="true">
-										<div class="modal-dialog">
+										<div class="modal-dialog" width="200px;">
 											<div class="modal-content">
 												<div class="modal-header">
 													<button type="button" class="close" data-dismiss="modal"

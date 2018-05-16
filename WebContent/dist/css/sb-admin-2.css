@@ -186,6 +186,10 @@ table.dataTable thead .sorting_desc_disabled {
   background: transparent;
 }
 
+.control-label-required:after {
+  content:"*";
+  color:red;
+}
 /* Custom */
 @media (min-width: 992px) {
   .modal-dialog {
@@ -195,14 +199,14 @@ table.dataTable thead .sorting_desc_disabled {
 
 .modal-dialog{
 	top:30%;
-	width: 80%;
+	width: 330px;
 	left:10%
 }
 .panel-default{
 	border-color:black;
 }
 .panel-default-signup{
-	width:120%;
+	width:100%;
 	border-color:black;
 }
 .col-lg-6{
